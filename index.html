@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Stand-up Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/6b4d3f0f5c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>StandUp AI</h2>
+
+        <nav>
+
+            <a class="active">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+
+            <a>
+                <i class="fa-solid fa-folder"></i>
+                Projects
+            </a>
+
+            <a>
+                <i class="fa-solid fa-chart-line"></i>
+                Reports
+            </a>
+
+            <a>
+                <i class="fa-solid fa-robot"></i>
+                AI Assistant
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main>
+
+        <div class="header">
+
+            <div>
+
+                <h1>Weekly Stand-up Generator</h1>
+
+                <p>Generate AI-powered weekly project summaries.</p>
+
+            </div>
+
+            <button id="generateBtn">
+
+                ✨ Generate Report
+
+            </button>
+
+        </div>
+
+
+        <!-- Top Cards -->
+
+        <div class="stats">
+
+            <div class="card">
+
+                <span>Total Projects</span>
+
+                <h2>14</h2>
+
+            </div>
+
+            <div class="card">
+
+                <span>On Track</span>
+
+                <h2>11</h2>
+
+            </div>
+
+            <div class="card">
+
+                <span>At Risk</span>
+
+                <h2>2</h2>
+
+            </div>
+
+            <div class="card">
+
+                <span>Completed</span>
+
+                <h2>1</h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- Progress Card -->
+
+        <section class="progress-card">
+
+            <div class="title">
+
+                <h2>MaaS Project</h2>
+
+                <span class="status">On Track</span>
+
+            </div>
+
+            <h3>Project Progress</h3>
+
+            <div class="progress">
+
+                <div class="progress-bar" id="progressBar"></div>
+
+            </div>
+
+            <div class="progress-info">
+
+                <span id="progressValue">78%</span>
+
+                <span>Expected Finish: Aug 15</span>
+
+            </div>
+
+            <div class="project-details">
+
+                <div>
+
+                    <small>Owner</small>
+
+                    <h4>Ahmed</h4>
+
+                </div>
+
+                <div>
+
+                    <small>Risk</small>
+
+                    <h4>Low</h4>
+
+                </div>
+
+                <div>
+
+                    <small>Last Update</small>
+
+                    <h4>Today</h4>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Weekly Report -->
+
+        <section class="report">
+
+            <div class="report-card">
+
+                <h3>✅ Completed</h3>
+
+                <ul id="completed">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+            <div class="report-card">
+
+                <h3>🚧 In Progress</h3>
+
+                <ul id="progressList">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+            <div class="report-card">
+
+                <h3>⚠️ Blockers</h3>
+
+                <ul id="blockers">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+            <div class="report-card">
+
+                <h3>🎯 Next Week</h3>
+
+                <ul id="nextWeek">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
