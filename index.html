@@ -1,239 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly Stand-up Generator</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/6b4d3f0f5c.js" crossorigin="anonymous"></script>
+<title>Weekly Stand-up AI</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
-<div class="logo">
 
-    <img src="RimthanLogo.png" alt="Rimthan Logo">
+<!-- HEADER -->
 
-</div>
-<div class="container">
+<header>
 
-    <!-- Sidebar -->
+    <div class="logo">
 
-    <aside class="sidebar">
+        <img src="RimthanLogo.png" alt="Rimthan">
 
-        <h2>StandUp AI</h2>
+    </div>
 
-        <nav>
+    <nav>
 
-            <a class="active">
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
+        <a href="#">Dashboard</a>
 
-            <a>
-                <i class="fa-solid fa-folder"></i>
-                Projects
-            </a>
+        <a href="#">Projects</a>
 
-            <a>
-                <i class="fa-solid fa-chart-line"></i>
-                Reports
-            </a>
+        <a href="#">Weekly Reports</a>
 
-            <a>
-                <i class="fa-solid fa-robot"></i>
-                AI Assistant
-            </a>
+    </nav>
 
-        </nav>
+    <div class="profile">
 
-    </aside>
+        <i class="fa-solid fa-user"></i>
 
+    </div>
 
-    <!-- Main -->
+</header>
 
-    <main>
 
-        <div class="header">
 
-            <div>
+<!-- HERO -->
 
-                <h1>Weekly Stand-up Generator</h1>
+<section class="hero">
 
-                <p>Generate AI-powered weekly project summaries.</p>
+<h1>
 
-            </div>
+Weekly Stand-up Generator
 
-            <button id="generateBtn">
+</h1>
 
-                ✨ Generate Report
+<p>
 
-            </button>
+Generate AI-powered weekly summaries for your projects.
 
-        </div>
+</p>
 
+</section>
 
-        <!-- Top Cards -->
 
-        <div class="stats">
 
-            <div class="card">
+<!-- CONTROLS -->
 
-                <span>Total Projects</span>
+<section class="controls">
 
-                <h2>14</h2>
+<select>
 
-            </div>
+<option>Select Project</option>
 
-            <div class="card">
+<option>MaaS</option>
 
-                <span>On Track</span>
+<option>Airport App</option>
 
-                <h2>11</h2>
+<option>Website</option>
 
-            </div>
+</select>
 
-            <div class="card">
+<select>
 
-                <span>At Risk</span>
+<option>This Week</option>
 
-                <h2>2</h2>
+<option>Last Week</option>
 
-            </div>
+<option>Last Month</option>
 
-            <div class="card">
+</select>
 
-                <span>Completed</span>
+<button id="generateBtn">
 
-                <h2>1</h2>
+✨ Generate Report
 
-            </div>
+</button>
 
-        </div>
+</section>
 
 
-        <!-- Progress Card -->
 
-        <section class="progress-card">
+<!-- PROJECT CARD -->
 
-            <div class="title">
+<section class="project-card">
 
-                <h2>MaaS Project</h2>
+<div class="card-header">
 
-                <span class="status">On Track</span>
+<h2>MaaS Project</h2>
 
-            </div>
+<span class="badge">
 
-            <h3>Project Progress</h3>
+On Track
 
-            <div class="progress">
-
-                <div class="progress-bar" id="progressBar"></div>
-
-            </div>
-
-            <div class="progress-info">
-
-                <span id="progressValue">78%</span>
-
-                <span>Expected Finish: Aug 15</span>
-
-            </div>
-
-            <div class="project-details">
-
-                <div>
-
-                    <small>Owner</small>
-
-                    <h4>Ahmed</h4>
-
-                </div>
-
-                <div>
-
-                    <small>Risk</small>
-
-                    <h4>Low</h4>
-
-                </div>
-
-                <div>
-
-                    <small>Last Update</small>
-
-                    <h4>Today</h4>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- Weekly Report -->
-
-        <section class="report">
-
-            <div class="report-card">
-
-                <h3>✅ Completed</h3>
-
-                <ul id="completed">
-
-                    <li>Waiting to generate...</li>
-
-                </ul>
-
-            </div>
-
-            <div class="report-card">
-
-                <h3>🚧 In Progress</h3>
-
-                <ul id="progressList">
-
-                    <li>Waiting to generate...</li>
-
-                </ul>
-
-            </div>
-
-            <div class="report-card">
-
-                <h3>⚠️ Blockers</h3>
-
-                <ul id="blockers">
-
-                    <li>Waiting to generate...</li>
-
-                </ul>
-
-            </div>
-
-            <div class="report-card">
-
-                <h3>🎯 Next Week</h3>
-
-                <ul id="nextWeek">
-
-                    <li>Waiting to generate...</li>
-
-                </ul>
-
-            </div>
-
-        </section>
-
-    </main>
+</span>
 
 </div>
 
-<script src="script.js"></script>
+<h3>
 
-</body>
-</html>
+Project Progress
+
+</h3>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+id="progressBar">
+
+</div>
+
+</div>
+
+<div class="progress-info">
+
+<span id="progressValue">
+
+78%
+
+</span>
+
+<span>
+
+Expected Finish • Aug 15
+
+</span>
+
+</div>
+
+<div class="details">
+
+<div>
+
+<p>Owner</p>
+
+<h4>Ahmed</h4>
+
+</div>
+
+<div>
+
+<p>Risk</p>
+
+<h4>Low</h4>
+
+</div>
+
+<div>
+
+<p>Last Update</p>
+
+<h4>Today</h4>
+
+</div>
+
+</div>
+
+</section>
