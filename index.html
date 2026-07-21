@@ -3,324 +3,287 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Stand-up AI</title>
 
-<title>Weekly Stand-up AI</title>
+    <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<!-- HEADER -->
+    <!-- ================= HEADER ================= -->
 
-<header>
+    <header class="header">
 
-    <div class="logo">
+        <div class="logo">
 
-        <img src="RimthanLogo.png" alt="Rimthan">
+            <img src="RimthanLogo.png" alt="Rimthan Logo">
 
-    </div>
+        </div>
 
-    <nav>
+        <nav>
 
-        <a href="#">Dashboard</a>
+            <a href="#">Dashboard</a>
 
-        <a href="#">Projects</a>
+            <a href="#">Projects</a>
 
-        <a href="#">Weekly Reports</a>
+            <a href="#">Reports</a>
 
-    </nav>
+        </nav>
 
-    <div class="profile">
+        <div class="profile">
 
-        <i class="fa-solid fa-user"></i>
+            <i class="fa-solid fa-user"></i>
 
-    </div>
+        </div>
 
-</header>
-
-
-
-<!-- HERO -->
-
-<section class="hero">
-
-<h1>
-
-Weekly Stand-up Generator
-
-</h1>
-
-<p>
-
-Generate AI-powered weekly summaries for your projects.
-
-</p>
-
-</section>
+    </header>
 
 
 
-<!-- CONTROLS -->
+    <!-- ================= MAIN ================= -->
 
-<section class="controls">
+    <main>
 
-    <div class="input-group">
+        <!-- HERO -->
 
-        <label>
+        <section class="hero">
 
-            Project
+            <h1>Weekly Stand-up Generator</h1>
 
-        </label>
+            <p>Generate AI-powered weekly summaries for your projects.</p>
 
-        <select>
-
-            <option>MaaS</option>
-
-            <option>Airport App</option>
-
-            <option>Dashboard</option>
-
-        </select>
-
-    </div>
+        </section>
 
 
-    <div class="input-group">
 
-        <label>
+        <!-- TOP CARDS -->
 
-            Time Period
+        <section class="stats">
 
-        </label>
+            <div class="card">
 
-        <select>
+                <span>Total Projects</span>
 
-            <option>This Week</option>
-
-            <option>Last Week</option>
-
-            <option>This Month</option>
-
-        </select>
-
-    </div>
-
-
-    <button id="generateBtn">
-
-        ✨ Generate Weekly Stand-up
-
-    </button>
-
-</section>
-
-<!-- PROJECT CARD -->
-
-
-<!-- PROJECT HEALTH -->
-
-<section class="project-health">
-
-    <div class="left-card">
-
-        <div class="card-top">
-
-            <div>
-
-                <h2>MaaS Project</h2>
-
-                <p>AI Weekly Analysis</p>
+                <h2>14</h2>
 
             </div>
 
-            <span class="badge">
+            <div class="card">
 
-                ● On Track
+                <span>On Track</span>
 
-            </span>
+                <h2>11</h2>
 
-        </div>
+            </div>
 
-        <h3>Project Health</h3>
+            <div class="card">
 
-        <div class="progress">
+                <span>At Risk</span>
 
-            <div class="progress-bar" id="progressBar"></div>
+                <h2>2</h2>
 
-        </div>
+            </div>
 
-        <div class="progress-info">
+            <div class="card">
 
-            <span id="progressValue">82%</span>
+                <span>Completed</span>
 
-            <span>Health Score</span>
+                <h2>1</h2>
 
-        </div>
+            </div>
 
-    </div>
+        </section>
 
 
-    <div class="right-card">
 
-        <div class="mini">
+        <!-- CONTROLS -->
 
-            <h4>Owner</h4>
+        <section class="controls">
 
-            <span>Ahmed</span>
+            <select>
 
-        </div>
+                <option>Select Project</option>
 
-        <div class="mini">
+                <option>MaaS</option>
 
-            <h4>Sprint</h4>
+                <option>Airport App</option>
 
-            <span>Week 8</span>
+                <option>Website</option>
 
-        </div>
+            </select>
 
-        <div class="mini">
+            <select>
 
-            <h4>Last Update</h4>
+                <option>This Week</option>
 
-            <span>2 hours ago</span>
+                <option>Last Week</option>
 
-        </div>
+                <option>This Month</option>
 
-        <div class="mini">
+            </select>
 
-            <h4>Risk</h4>
+            <button id="generateBtn">
 
-            <span class="green">Low</span>
+                ✨ Generate Report
 
-        </div>
+            </button>
 
-    </div>
+        </section>
 
-</section>
-<!-- REPORT -->
 
-<section class="report-grid">
 
-    <div class="report-card">
+        <!-- PROJECT PROGRESS -->
 
-        <h3>✅ Completed</h3>
+        <section class="progress-card">
 
-        <ul id="completed">
+            <div class="title">
 
-            <li>Waiting to generate...</li>
+                <h2>MaaS Project</h2>
 
-        </ul>
+                <span class="status">
 
-    </div>
+                    On Track
 
+                </span>
 
-    <div class="report-card">
+            </div>
 
-        <h3>🚧 In Progress</h3>
+            <h3>
 
-        <ul id="progressList">
+                Project Progress
 
-            <li>Waiting to generate...</li>
+            </h3>
 
-        </ul>
+            <div class="progress">
 
-    </div>
+                <div class="progress-bar" id="progressBar"></div>
 
+            </div>
 
-    <div class="report-card">
+            <div class="progress-info">
 
-        <h3>⚠️ Blockers</h3>
+                <span id="progressValue">
 
-        <ul id="blockers">
+                    78%
 
-            <li>Waiting to generate...</li>
+                </span>
 
-        </ul>
+                <span>
 
-    </div>
+                    Expected Finish • Aug 15
 
+                </span>
 
-    <div class="report-card">
+            </div>
 
-        <h3>🎯 Next Week</h3>
+            <div class="project-details">
 
-        <ul id="nextWeek">
+                <div>
 
-            <li>Waiting to generate...</li>
+                    <small>Owner</small>
 
-        </ul>
+                    <h4>Ahmed</h4>
 
-    </div>
+                </div>
 
-</section>
+                <div>
 
+                    <small>Risk</small>
 
+                    <h4>Low</h4>
 
-<!-- AI INSIGHTS -->
+                </div>
 
-<section class="insights">
+                <div>
 
-    <div class="insight-card">
+                    <small>Last Update</small>
 
-        <i class="fa-solid fa-lightbulb"></i>
+                    <h4>Today</h4>
 
-        <div>
+                </div>
 
-            <h4>AI Insight</h4>
+            </div>
 
-            <p>
+        </section>
 
-                The project is progressing as planned with no major risks detected.
 
-            </p>
 
-        </div>
+        <!-- WEEKLY REPORT -->
 
-    </div>
+        <section class="report">
 
+            <div class="report-card">
 
-    <div class="insight-card">
+                <h3>✅ Completed</h3>
 
-        <i class="fa-solid fa-triangle-exclamation"></i>
+                <ul id="completed">
 
-        <div>
+                    <li>Waiting to generate...</li>
 
-            <h4>Potential Risk</h4>
+                </ul>
 
-            <p>
+            </div>
 
-                Documentation tasks may delay the final release.
 
-            </p>
 
-        </div>
+            <div class="report-card">
 
-    </div>
+                <h3>🚧 In Progress</h3>
 
-</section>
+                <ul id="progressList">
 
+                    <li>Waiting to generate...</li>
 
+                </ul>
 
-<footer>
+            </div>
 
-    Built for Rimthan • Weekly Stand-up AI
 
-</footer>
 
+            <div class="report-card">
 
-<script src="script.js"></script>
+                <h3>⚠️ Blockers</h3>
+
+                <ul id="blockers">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+
+
+            <div class="report-card">
+
+                <h3>🎯 Next Week</h3>
+
+                <ul id="nextWeek">
+
+                    <li>Waiting to generate...</li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+    <script src="script.js"></script>
 
 </body>
 
