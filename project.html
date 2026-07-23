@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Update · Rimthan</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="detail-page">
+
+  <!-- ================= HEADER (shared) ================= -->
+  <header class="header">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="24" r="11" stroke="white" stroke-width="5"/>
+          <path d="M50 35 L20 82 Q50 100 80 82 Z" stroke="white" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M50 35 V95" stroke="white" stroke-width="5"/>
+          <path d="M20 82 H80" stroke="white" stroke-width="5"/>
+          <path d="M30 68 Q50 82 70 68" stroke="white" stroke-width="5"/>
+        </svg>
+      </span>
+      <span class="brand-word">rimthan</span>
+    </a>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="#" class="active">Projects</a>
+      <a href="#">Reports</a>
+    </nav>
+    <div class="header-right">
+      <div class="profile"><i>&#9679;</i></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="breadcrumb">
+      <a href="index.html">Venture Galaxy</a><span>/</span><span id="crumbName">Loading…</span>
+    </div>
+
+    <div class="detail-hero">
+      <div>
+        <h1 id="ventureTitle">Loading…</h1>
+        <div class="week" id="weekLabel"></div>
+      </div>
+      <div class="health-pill" id="healthPill"></div>
+    </div>
+
+    <!-- everything below is filled in by project.js, or replaced with
+         an empty state if this venture has no update generated yet -->
+    <div id="updateBody"></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="project.js"></script>
+</body>
+</html>
