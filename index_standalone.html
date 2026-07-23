@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rimthan · Venture Galaxy</title>
+<style>
+/* =====================================================================
+   RIMTHAN VENTURE GALAXY — DESIGN TOKENS
+   Matched to the Rimthan Framework site: white page, deep forest-green
+   hero card, lime -> cyan -> blue gradient signature, bold clean Inter.
+   ===================================================================== */
+:root{
+  /* --- surfaces --- */
+  --paper:      #FFFFFF;
+  --paper-soft: #F5F8F6;
+  --hairline:   #E7ECE9;
+
+  /* --- text --- */
+  --ink:      #14181A;
+  --ink-soft: #5C6B64;
+  --ink-faint:#93A39B;
+
+  /* --- hero gradient card --- */
+  --hero-deep:  #070E0A;
+  --hero-mid:   #123024;
+  --hero-glow:  #1B4635;
+
+  /* --- brand gradient (the "Venture Galaxy Way") --- */
+  --lime: #D6F25C;
+  --teal: #7FE0A0;
+  --cyan: #57D3DE;
+  --blue: #4C8DF0;
+
+  /* --- health status (functional signal, kept distinct from the brand gradient) --- */
+  --on-track:  #4FAE63;
+  --at-risk:   #E8A23B;
+  --off-track: #E1584E;
+
+  /* --- shape --- */
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --shadow-card: 0 1px 2px rgba(16,24,20,0.05), 0 14px 30px rgba(16,24,20,0.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+a{color:inherit;}
+ul{list-style:none;}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-thumb{background:#D5DBD8;border-radius:20px;}
+::-webkit-scrollbar-track{background:transparent;}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+
+/* =====================================================================
+   HEADER — shared across pages
+   ===================================================================== */
+.header{
+  position:sticky;
+  top:0; left:0; width:100%;
+  height:72px;
+  display:flex;
+  align-items:center;
+  gap:36px;
+  padding:0 44px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hairline);
+  z-index:999;
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:#0D1210;
+  display:flex;align-items:center;justify-content:center;
+}
+.brand-mark svg{width:20px;height:20px;display:block;}
+.brand-word{font-weight:800;font-size:18px;letter-spacing:-0.2px;color:var(--ink);}
+
+.header nav{display:flex;align-items:center;gap:26px;}
+.header nav a{
+  text-decoration:none;
+  color:var(--ink-soft);
+  font-size:14.5px;
+  font-weight:600;
+  padding:10px 2px;
+  position:relative;
+  transition:color .2s ease;
+}
+.header nav a:hover{color:var(--ink);}
+.header nav a.active{color:var(--ink);}
+.header nav a.active::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0;
+  height:2px; border-radius:2px;
+  background:var(--blue);
+}
+
+.header-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.search-pill{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 14px;
+  border-radius:999px;
+  border:1px solid var(--hairline);
+  color:var(--ink-soft);
+  font-size:13.5px;
+  font-weight:500;
+  cursor:default;
+}
+.search-pill kbd{
+  font-size:11px;
+  padding:2px 6px;
+  border-radius:5px;
+  background:var(--paper-soft);
+  border:1px solid var(--hairline);
+  color:var(--ink-faint);
+}
+.profile{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--paper-soft);
+  border:1px solid var(--hairline);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft);
+  font-size:12px;
+  cursor:pointer;
+}
+
+/* =====================================================================
+   PAGE 1 — VENTURE GALAXY MAP
+   ===================================================================== */
+.map-page main{max-width:1280px;margin:0 auto;padding:36px 32px 70px;}
+
+/* --- dark hero card --- */
+.hero-card{
+  position:relative;
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  padding:60px 56px 44px;
+  background:
+    radial-gradient(1100px 520px at 18% 0%, var(--hero-glow), transparent 60%),
+    radial-gradient(900px 500px at 90% 90%, rgba(76,141,240,0.16), transparent 55%),
+    linear-gradient(160deg, var(--hero-mid), var(--hero-deep) 70%);
+  color:#EAF3EE;
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--lime);
+  margin-bottom:20px;
+}
+.hero-eyebrow::before{content:"";width:16px;height:1px;background:var(--lime);}
+.hero-card h1{
+  font-size:clamp(32px,4.4vw,52px);
+  font-weight:800;
+  letter-spacing:-1px;
+  line-height:1.08;
+  margin-bottom:16px;
+  max-width:16ch;
+}
+.hero-card h1 .accent{
+  background:linear-gradient(90deg, var(--lime), var(--cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-card p.lede{
+  color:#AFC3B9;
+  font-size:16.5px;
+  line-height:1.6;
+  max-width:56ch;
+  margin-bottom:36px;
+}
+
+/* --- chart --- */
+.chart-stage{position:relative;}
+.chart-stage svg.galaxy-svg{width:100%;height:auto;display:block;}
+
+.route-path{
+  fill:none;
+  stroke:url(#routeGradient);
+  stroke-width:2.5;
+  stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(215,242,94,0.35));
+  stroke-dasharray:6 10;
+  animation:flow 26s linear infinite;
+}
+@keyframes flow{ to{ stroke-dashoffset:-500; } }
+.contour{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:1;}
+.horizon-grid line{stroke:rgba(255,255,255,0.035);stroke-width:1;}
+.star{fill:#ffffff;opacity:0.35;}
+
+.node{cursor:pointer;}
+.node-ring{
+  fill:none;stroke-width:1.5;opacity:0.55;
+  transform-origin:center;
+  animation:pulse 3.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:0.4;}
+  50%{transform:scale(1.28);opacity:0.05;}
+}
+.node-core{stroke-width:2;}
+.node:hover .node-core, .node.active .node-core{filter:drop-shadow(0 0 10px currentColor);}
+.node-health-dot{stroke:var(--hero-deep);stroke-width:2;}
+.node-label{font-size:15px;font-weight:700;fill:#F4FAF7;}
+.node-bearing{font-size:10.5px;fill:#7C9188;letter-spacing:0.4px;}
+
+.hero-cta-row{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;}
+.btn-lime{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 22px;border-radius:999px;
+  background:var(--lime);
+  color:#1B2A16;
+  font-weight:700;font-size:14.5px;
+  text-decoration:none;
+  transition:.2s;
+}
+.btn-lime:hover{filter:brightness(1.05);transform:translateY(-1px);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 22px;border-radius:999px;
+  border:1px solid rgba(255,255,255,0.22);
+  color:#EAF3EE;
+  font-weight:700;font-size:14.5px;
+  text-decoration:none;
+  transition:.2s;
+}
+.btn-outline:hover{background:rgba(255,255,255,0.06);}
+
+/* --- overlay card (holographic detail on node click) --- */
+.overlay-layer{position:absolute;inset:0;pointer-events:none;}
+.overlay-card{
+  position:absolute;width:250px;padding:20px 22px;
+  border-radius:var(--radius-md);
+  background:rgba(10,20,15,0.92);
+  border:1px solid rgba(215,242,94,0.28);
+  box-shadow:0 18px 40px rgba(0,0,0,0.45);
+  backdrop-filter:blur(10px);
+  opacity:0;transform:translateY(6px) scale(0.96);
+  pointer-events:none;
+  transition:opacity .28s ease, transform .28s ease;
+  z-index:50;
+}
+.overlay-card.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.overlay-card .oc-title{font-size:16px;font-weight:800;margin-bottom:2px;color:#F4FAF7;}
+.overlay-card .oc-tagline{font-size:12px;color:#9BB1A6;margin-bottom:14px;}
+.oc-health{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;margin-bottom:14px;}
+.oc-led{width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;}
+.oc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.oc-stat{background:rgba(255,255,255,0.05);border-radius:var(--radius-sm);padding:9px 6px;text-align:center;}
+.oc-stat b{display:block;font-size:16px;color:var(--lime);}
+.oc-stat span{font-size:9.5px;color:#7C9188;text-transform:uppercase;letter-spacing:0.4px;}
+.oc-cta{
+  display:flex;align-items:center;justify-content:space-between;width:100%;
+  padding:9px 12px;border-radius:999px;
+  border:1px solid rgba(215,242,94,0.3);
+  background:rgba(215,242,94,0.08);
+  color:var(--lime);font-size:12.5px;font-weight:700;
+  text-decoration:none;cursor:pointer;transition:.2s;
+}
+.oc-cta:hover{background:rgba(215,242,94,0.16);}
+
+/* --- legend --- */
+.map-legend{display:flex;gap:24px;margin-top:26px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);}
+.legend-dot{width:9px;height:9px;border-radius:50%;background:currentColor;}
+
+/* =====================================================================
+   LIGHT CONTENT SECTIONS BELOW THE HERO (map page)
+   ===================================================================== */
+.section-label{
+  font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--ink-faint);margin:52px 0 18px;
+}
+
+.feature-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  flex-wrap:wrap;
+  padding:30px 34px;
+  border-radius:var(--radius-lg);
+  background:linear-gradient(115deg, #2E63D6, #57B6E8);
+  color:#fff;
+}
+.feature-banner-left{display:flex;align-items:center;gap:20px;}
+.feature-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(255,255,255,0.16);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.feature-icon svg{width:26px;height:26px;}
+.feature-banner h3{font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px;}
+.pill-new{
+  font-size:10.5px;font-weight:800;letter-spacing:0.5px;
+  background:rgba(255,255,255,0.22);padding:3px 10px;border-radius:999px;
+}
+.feature-banner p{font-size:14px;color:rgba(255,255,255,0.86);margin-top:6px;max-width:56ch;line-height:1.55;}
+.feature-banner .btn-white{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 20px;border-radius:999px;
+  background:#fff;color:#1F4FB0;
+  font-weight:700;font-size:13.5px;
+  text-decoration:none;white-space:nowrap;
+}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;}
+.info-card{
+  background:var(--paper-soft);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-lg);
+  padding:26px 28px;
+}
+.info-card h4{font-size:15.5px;font-weight:800;margin-bottom:8px;}
+.info-card p.desc{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px;}
+
+.health-tags{display:flex;gap:10px;flex-wrap:wrap;}
+.health-tag{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:999px;
+  background:var(--paper);border:1px solid var(--hairline);
+  font-size:13px;font-weight:600;color:var(--ink);
+}
+.health-tag .dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+
+.glance-stats{display:flex;gap:22px;}
+.glance-stat b{display:block;font-size:26px;font-weight:800;}
+.glance-stat span{font-size:12px;color:var(--ink-soft);}
+
+/* =====================================================================
+   PAGE 2 — PROJECT / VENTURE WEEKLY UPDATE
+   ===================================================================== */
+.detail-page main{max-width:1180px;margin:0 auto;padding:40px 32px 80px;}
+
+.breadcrumb{
+  font-size:13px;color:var(--ink-faint);
+  display:flex;align-items:center;gap:8px;margin-bottom:22px;
+}
+.breadcrumb a{text-decoration:none;color:var(--ink-soft);font-weight:600;}
+.breadcrumb a:hover{color:var(--ink);}
+
+/* --- header strip: Venture / Lead / Stage / Health --- */
+.venture-strip{
+  display:flex;flex-wrap:wrap;align-items:center;gap:34px;
+  padding:22px 30px;
+  border-radius:var(--radius-lg);
+  background:var(--paper-soft);
+  border:1px solid var(--hairline);
+  margin-bottom:28px;
+}
+.strip-item{display:flex;flex-direction:column;gap:3px;}
+.strip-item .k{font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--ink-faint);}
+.strip-item .v{font-size:15.5px;font-weight:700;color:var(--ink);}
+.strip-item .v.health{display:flex;align-items:center;gap:8px;}
+.strip-logo{margin-left:auto;font-weight:800;font-size:15px;color:var(--ink-soft);}
+
+/* --- priority cards --- */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.card{
+  background:var(--paper);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-lg);
+  padding:26px 28px;
+  box-shadow:var(--shadow-card);
+}
+.card-full{grid-column:1 / -1;}
+
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px;}
+.card-head h3{font-size:16.5px;font-weight:800;margin-bottom:3px;}
+.card-head small{font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-faint);}
+
+/* circular meter */
+.meter{position:relative;width:60px;height:60px;flex-shrink:0;}
+.meter svg{transform:rotate(-90deg);width:100%;height:100%;}
+.meter circle{fill:none;stroke-width:6;}
+.meter .track{stroke:var(--hairline);}
+.meter .value{stroke:var(--on-track);stroke-linecap:round;transition:stroke-dashoffset 1s ease;}
+.meter-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+
+.bullet-list{margin-bottom:16px;}
+.bullet-list li{
+  position:relative;padding-left:18px;
+  font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:8px;
+}
+.bullet-list li::before{
+  content:"";position:absolute;left:0;top:8px;
+  width:6px;height:6px;border-radius:50%;background:var(--teal);
+}
+.bullet-list li strong{color:var(--ink);}
+
+.next-step{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;border-radius:999px;
+  background:#EAF6EE;border:1px solid #CFE9D6;
+  color:#1F6B3B;font-size:13px;font-weight:700;text-decoration:none;
+}
+.next-step::after{content:"→";}
+
+/* --- risk / support cards --- */
+.risk-card{border-left:3px solid var(--at-risk);margin-bottom:16px;}
+.risk-card:last-child{margin-bottom:0;}
+.risk-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.led{width:9px;height:9px;border-radius:50%;background:currentColor;}
+.risk-card h4{font-size:15px;font-weight:800;}
+.risk-card p{color:var(--ink-soft);font-size:13.5px;line-height:1.6;}
+.severity-tag{
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;
+  background:#FDF1DF;color:#A9711A;border:1px solid #F3DDB0;
+}
+
+.support-card{border-left:3px solid var(--blue);margin-bottom:16px;}
+.support-card:last-child{margin-bottom:0;}
+.support-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.support-row p{color:var(--ink-soft);font-size:13.5px;line-height:1.6;max-width:60ch;}
+.support-row p strong{color:var(--ink);}
+.support-btn{
+  padding:11px 18px;border-radius:999px;
+  background:var(--ink);color:#fff;
+  font-weight:700;font-size:13px;border:none;cursor:pointer;white-space:nowrap;
+  transition:.2s;
+}
+.support-btn:hover{background:#2B3430;}
+
+.empty-list{color:var(--ink-faint);font-size:13.5px;font-style:italic;}
+
+/* --- timeline --- */
+.timeline-wrap{padding:30px 6px 6px;}
+.tl-tag{font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px;display:block;}
+.timeline-track{position:relative;height:2px;margin:0 30px;background:var(--hairline);}
+.timeline-points{display:flex;justify-content:space-between;margin:0 30px;position:relative;top:-13px;}
+.tl-point{display:flex;flex-direction:column;align-items:center;width:120px;text-align:center;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--on-track);background:var(--on-track);margin-bottom:12px;}
+.tl-point.pending .tl-dot{background:var(--paper);border-color:var(--ink-faint);}
+.tl-point span{font-size:12.5px;color:var(--ink-soft);line-height:1.4;}
+.tl-point.pending span{color:var(--ink-faint);}
+
+/* --- empty state (venture with no update generated yet) --- */
+.empty-state{text-align:center;padding:64px 30px;}
+.empty-state h3{font-size:19px;font-weight:800;margin-bottom:10px;}
+.empty-state p{color:var(--ink-soft);font-size:14px;}
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width:960px){
+  .header nav{display:none;}
+  .card-grid, .info-grid{grid-template-columns:1fr;}
+  .timeline-track,.timeline-points{margin:0 10px;}
+  .tl-point{width:auto;flex:1;}
+  .hero-card{padding:44px 26px 34px;}
+}
+@media (max-width:640px){
+  .header{padding:0 20px;}
+  .map-page main, .detail-page main{padding:26px 18px 60px;}
+  .venture-strip{gap:20px;}
+  .strip-logo{margin-left:0;}
+  .feature-banner{flex-direction:column;align-items:flex-start;}
+  .support-row{flex-direction:column;align-items:flex-start;}
+}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="map-page">
+
+  <!-- ================= HEADER (shared) ================= -->
+  <header class="header">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="24" r="11" stroke="white" stroke-width="6"/>
+          <path d="M50 35 L20 82 Q50 100 80 82 Z" stroke="white" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M50 35 V95" stroke="white" stroke-width="6"/>
+          <path d="M20 82 H80" stroke="white" stroke-width="6"/>
+          <path d="M30 68 Q50 82 70 68" stroke="white" stroke-width="6"/>
+        </svg>
+      </span>
+      <span class="brand-word">rimthan</span>
+    </a>
+    <nav>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="#">Projects</a>
+      <a href="#">Reports</a>
+    </nav>
+    <div class="header-right">
+      <div class="search-pill"><span>Search</span><kbd>⌘K</kbd></div>
+      <div class="profile">●</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO: dark card + interactive chart ================= -->
+    <div class="hero-card">
+      <div class="hero-eyebrow">Venture Galaxy · Weekly Stand-up</div>
+      <h1>Every venture's <span class="accent">weekly pulse</span>, in one place.</h1>
+      <p class="lede">Follow the route to any venture Rimthan is building. Click a node for its health at a glance, or step straight into this week's AI-generated stand-up.</p>
+
+      <div class="chart-stage" id="chartStage">
+        <!-- galaxy chart SVG is rendered by map.js -->
+        <div class="overlay-layer" id="overlayLayer"></div>
+      </div>
+
+      <div class="hero-cta-row">
+        <a class="btn-lime" href="project.html?venture=takamol">Open Takamol's stand-up <span>→</span></a>
+        <a class="btn-outline" href="#glance">View this week at a glance</a>
+      </div>
+    </div>
+
+    <div class="map-legend">
+      <div class="legend-item" data-health="On Track" style="color:var(--on-track)"><span class="legend-dot"></span> On Track</div>
+      <div class="legend-item" data-health="At Risk" style="color:var(--at-risk)"><span class="legend-dot"></span> At Risk</div>
+      <div class="legend-item" data-health="Off Track" style="color:var(--off-track)"><span class="legend-dot"></span> Off Track</div>
+    </div>
+
+    <!-- ================= AI STAND-UP FEATURE BANNER ================= -->
+    <div class="section-label">New</div>
+    <div class="feature-banner">
+      <div class="feature-banner-left">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L14 8L20 10L14 12L12 18L10 12L4 10L10 8L12 2Z" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <h3>AI Weekly Stand-up <span class="pill-new">NEW</span></h3>
+          <p>Every venture's update — priorities, wins, risks, leadership asks — generated automatically each week and dropped straight into its page. No manual write-up required.</p>
+        </div>
+      </div>
+      <a class="btn-white" href="project.html?venture=takamol">See it in action →</a>
+    </div>
+
+    <!-- ================= AT A GLANCE ================= -->
+    <div class="section-label" id="glance">This week at a glance</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>Browse by health</h4>
+        <p class="desc">Every venture's current status, generated fresh each week.</p>
+        <div class="health-tags" id="healthTags"><!-- filled by map.js --></div>
+      </div>
+      <div class="info-card">
+        <h4>Stand-up coverage</h4>
+        <p class="desc">How many ventures have an AI-generated update this week.</p>
+        <div class="glance-stats" id="glanceStats"><!-- filled by map.js --></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+/* =====================================================================
+   RIMTHAN VENTURE GALAXY — DATA SOURCE
+   ---------------------------------------------------------------------
+   Field names below mirror Rimthan's actual weekly stand-up template
+   (Venture / Venture Lead / Stage / Overall Health, Key Priorities,
+   Key Wins, Risks/Blockers, Leadership Support Needed) so filling this
+   in from a real stand-up doc is a direct copy, not a translation.
+   ===================================================================== */
+
+/* ----------------------------------------------------------------------
+   1. VENTURE MAP DATA — one entry per node on the Venture Galaxy chart
+   ---------------------------------------------------------------------- */
+const VENTURE_MAP = [
+  {
+    id: "takamol",
+    name: "Takamol",
+    tagline: "Workforce mobility platform",
+    healthStatus: "On Track",       // "On Track" | "At Risk" | "Off Track"
+    activePriorities: 2,
+    risks: 1,
+    milestonesCompleted: 6
+  },
+  {
+    id: "aether",
+    name: "Aether Mobility",
+    tagline: "Autonomous last-mile fleet",
+    healthStatus: "On Track",
+    activePriorities: 4,
+    risks: 0,
+    milestonesCompleted: 9
+  },
+  {
+    id: "novafreight",
+    name: "Nova Freight",
+    tagline: "Cross-border logistics network",
+    healthStatus: "At Risk",
+    activePriorities: 5,
+    risks: 3,
+    milestonesCompleted: 7
+  },
+  {
+    id: "orbithealth",
+    name: "Orbit Health",
+    tagline: "Remote diagnostics network",
+    healthStatus: "On Track",
+    activePriorities: 3,
+    risks: 1,
+    milestonesCompleted: 11
+  },
+  {
+    id: "helios",
+    name: "Helios Energy",
+    tagline: "Distributed solar micro-grids",
+    healthStatus: "Off Track",
+    activePriorities: 2,
+    risks: 4,
+    milestonesCompleted: 3
+  }
+];
+
+/* chart coordinates, kept separate from business data — an AI feed
+   should never need to know where a dot sits on screen */
+const VENTURE_POSITIONS = {
+  takamol:     { x: 190,  y: 430, bearing: "N24° · E118°" },
+  aether:      { x: 430,  y: 215, bearing: "N41° · E122°" },
+  novafreight: { x: 655,  y: 465, bearing: "N08° · E131°" },
+  orbithealth: { x: 885,  y: 195, bearing: "N53° · E140°" },
+  helios:      { x: 1075, y: 405, bearing: "N02° · E152°" }
+};
+
+/* ----------------------------------------------------------------------
+   2. WEEKLY PROJECT UPDATES — keyed by venture id.
+   Powers project.html?venture=<id>. Shape mirrors the real stand-up
+   template exactly:
+     venture, ventureLead, stage, overallHealth   — header strip
+     priorities[]  — one row per stream (name, stream, team, progress,
+                     progressNotes[], nextStep, notes)
+     keyWins[]     — "Key wins last week"
+     risks[]       — "Risks or blockers" (item, stream, severity, mitigation)
+     support[]     — "Leadership support needed" (type, person)
+     timeline      — completed vs this week's targets
+
+   Only "takamol" has a real update below. A venture with no entry
+   here renders a "not generated yet" state instead of erroring —
+   exactly what you want once the AI stand-up starts filling these in
+   automatically week to week.
+   ---------------------------------------------------------------------- */
+const PROJECT_UPDATES = {
+  takamol: {
+    ventureLead: "Ali",
+    stage: "MVB, handover",
+    weekLabel: "Week of Jul 20 – Jul 24",
+    overallHealth: "On Track",
+
+    priorities: [
+      {
+        name: "Business Development Taskforce",
+        stream: "BORD",
+        team: "Feras, Ibrahim",
+        progress: 95,
+        progressNotes: [
+          "Albawani — start the procurement process",
+          "Meeting done: Proline, ToYou, THA, EFSIM",
+          "Meeting set: Oriental Yields Ltd., Tamkeen HR, Al-Suwaidi Holding Co."
+        ],
+        nextStep: "Demo · Proline",
+        notes: ""
+      },
+      {
+        name: "Tech",
+        stream: "BORD",
+        team: "Kuba",
+        progress: 99,
+        progressNotes: [
+          "Course assignment per user/team/org & PDPL — RELEASE DONE, production",
+          "Now: Marketplace + Checkout.com release, waiting for prod card approval"
+        ],
+        nextStep: "",
+        notes: ""
+      }
+    ],
+
+    keyWins: [
+      // populate from "Key wins last week" — empty this week
+    ],
+
+    risks: [
+      {
+        item: "Stream Commercial",
+        stream: "BORD",
+        severity: "Medium",
+        mitigation: ""
+      }
+    ],
+
+    support: [
+      {
+        type: "",
+        person: ""
+      }
+    ],
+
+    timeline: {
+      completed: [],
+      targets: ["Demo · Proline", "Marketplace go-live"]
+    }
+  }
+
+  // aether: { ...same shape as "takamol" above... },
+  // novafreight: { ...same shape as "takamol" above... },
+};
+
+/* ----------------------------------------------------------------------
+   3. LIVE DATA CONNECTOR — the seam for your AI stand-up generator
+   ---------------------------------------------------------------------
+   Everything reads through the functions below instead of touching
+   VENTURE_MAP / PROJECT_UPDATES directly. Today they just hand back
+   the static objects above. When your generator is ready, flip
+   USE_LIVE_DATA to true and fill in the fetch() calls — nothing in
+   map.js or project.js needs to change.
+
+   Suggested API shape (so no other code changes):
+     GET /ventures            -> VENTURE_MAP  (array, same fields)
+     GET /ventures/:id/update -> one PROJECT_UPDATES[id] object, or
+                                  404 / null if not generated yet
+   ---------------------------------------------------------------------- */
+const USE_LIVE_DATA = false; // flip to true once your backend is live
+
+async function loadVentureMap(){
+  if (USE_LIVE_DATA) {
+    // TODO: const res = await fetch("https://your-api.com/ventures");
+    // return await res.json();
+  }
+  return VENTURE_MAP;
+}
+
+async function loadVenturePosition(id){
+  return VENTURE_POSITIONS[id] || { x: 600, y: 340, bearing: "" };
+}
+
+async function loadProjectUpdate(ventureId){
+  if (USE_LIVE_DATA) {
+    // TODO: const res = await fetch(`https://your-api.com/ventures/${ventureId}/update`);
+    // if (!res.ok) return null;
+    // return await res.json();
+  }
+  return PROJECT_UPDATES[ventureId] || null;
+}
+
+
+/* =====================================================================
+   RIMTHAN VENTURE GALAXY — MAP RENDERER
+   Reads venture data through loadVentureMap() / loadVenturePosition()
+   (see data.js). The route + node rings use the brand gradient
+   (lime -> cyan -> blue); the small core dot on each node still
+   encodes real health status, so the chart stays useful, not just
+   decorative.
+   ===================================================================== */
+
+const CHART_W = 1200;
+const CHART_H = 640;
+
+const HEALTH_COLOR = {
+  "On Track":  "#4FAE63",
+  "At Risk":   "#E8A23B",
+  "Off Track": "#E1584E"
+};
+
+// brand gradient stops, sampled across ventures left-to-right (lime -> cyan -> blue)
+const BRAND_STOPS = ["#D6F25C", "#9FE07C", "#7FE0A0", "#57D3DE", "#4C8DF0"];
+
+const stage = document.getElementById("chartStage");
+const overlayLayer = document.getElementById("overlayLayer");
+
+function seededStars(count){
+  let seed = 42;
+  const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  let out = "";
+  for(let i=0;i<count;i++){
+    const x = rand()*CHART_W;
+    const y = rand()*CHART_H*0.55;
+    const r = rand()*1.1 + 0.3;
+    out += `<circle class="star" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(2)}" opacity="${(rand()*0.4+0.15).toFixed(2)}"/>`;
+  }
+  return out;
+}
+
+function horizonGrid(){
+  let lines = "";
+  for(let i=0;i<=8;i++){
+    const y = 480 + i*17;
+    const inset = i*46;
+    lines += `<line x1="${inset}" y1="${y}" x2="${CHART_W-inset}" y2="${y}"/>`;
+  }
+  return `<g class="horizon-grid">${lines}</g>`;
+}
+
+function routePath(nodes){
+  const pts = nodes.slice().sort((a,b)=>a.pos.x-b.pos.x);
+  let d = `M ${pts[0].pos.x} ${pts[0].pos.y}`;
+  for(let i=1;i<pts.length;i++){
+    const prev = pts[i-1].pos, cur = pts[i].pos;
+    const midX = (prev.x + cur.x)/2;
+    d += ` C ${midX} ${prev.y}, ${midX} ${cur.y}, ${cur.x} ${cur.y}`;
+  }
+  return d;
+}
+
+function buildSVG(ventures){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${CHART_W} ${CHART_H}`);
+  svg.setAttribute("class", "galaxy-svg");
+  svg.setAttribute("aria-label", "Venture Galaxy chart");
+
+  // sort by x so gradient stops read left-to-right like the route itself
+  const byX = ventures.slice().sort((a,b)=>a.pos.x-b.pos.x);
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="routeGradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="${BRAND_STOPS[0]}"/>
+        <stop offset="50%" stop-color="${BRAND_STOPS[2]}"/>
+        <stop offset="100%" stop-color="${BRAND_STOPS[4]}"/>
+      </linearGradient>
+    </defs>
+
+    <path class="contour" d="M -40 120 Q 300 40 620 140 T 1260 90" />
+    <path class="contour" d="M -40 520 Q 340 600 700 540 T 1260 560" />
+
+    ${horizonGrid()}
+    ${seededStars(60)}
+
+    <path class="route-path" d="${routePath(ventures)}" />
+    <g id="nodesGroup"></g>
+  `;
+
+  const nodesGroup = svg.querySelector("#nodesGroup");
+  byX.forEach((v, i) => {
+    const brandColor = BRAND_STOPS[i % BRAND_STOPS.length];
+    const healthColor = HEALTH_COLOR[v.healthStatus] || "#93A39B";
+    const { x, y, bearing } = v.pos;
+    const g = document.createElementNS(svgNS, "g");
+    g.setAttribute("class", "node");
+    g.setAttribute("data-id", v.id);
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "button");
+    g.setAttribute("aria-label", `${v.name} — ${v.healthStatus}`);
+    g.innerHTML = `
+      <circle class="node-ring" cx="${x}" cy="${y}" r="15" stroke="${brandColor}" style="animation-delay:${(i % 5) * 0.3}s"/>
+      <circle class="node-core" cx="${x}" cy="${y}" r="8" fill="${brandColor}" stroke="${brandColor}"/>
+      <circle class="node-health-dot" cx="${x + 9}" cy="${y - 9}" r="4.5" fill="${healthColor}"/>
+      <text class="node-label" x="${x}" y="${y - 26}" text-anchor="middle">${v.name}</text>
+      <text class="node-bearing" x="${x}" y="${y + 32}" text-anchor="middle">${bearing}</text>
+    `;
+    nodesGroup.appendChild(g);
+
+    g.addEventListener("click", (e) => { e.stopPropagation(); toggleOverlay(v, healthColor); });
+    g.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleOverlay(v, healthColor); } });
+  });
+
+  return svg;
+}
+
+let activeId = null;
+
+function toggleOverlay(v, healthColor){
+  document.querySelectorAll(".node").forEach(n => n.classList.toggle("active", n.dataset.id === v.id && activeId !== v.id));
+
+  if(activeId === v.id){
+    overlayLayer.innerHTML = "";
+    activeId = null;
+    return;
+  }
+  activeId = v.id;
+
+  const { x, y } = v.pos;
+  const leftPct = (x / CHART_W) * 100;
+  const topPct  = (y / CHART_H) * 100;
+
+  const flipLeft = leftPct > 62;
+  const cardLeft = flipLeft ? `calc(${leftPct}% - 268px)` : `calc(${leftPct}% + 24px)`;
+  const flipUp = topPct > 55;
+  const cardTop = flipUp ? `calc(${topPct}% - 260px)` : `calc(${topPct}% - 10px)`;
+
+  const cta = `<a class="oc-cta" href="project.html?venture=${v.id}">Open venture update <span>&rarr;</span></a>`;
+
+  overlayLayer.innerHTML = `
+    <div class="overlay-card visible" style="left:${cardLeft}; top:${cardTop}; color:${healthColor};">
+      <div class="oc-title">${v.name}</div>
+      <div class="oc-tagline">${v.tagline}</div>
+      <div class="oc-health"><span class="oc-led"></span><span style="color:#F4FAF7">${v.healthStatus}</span></div>
+      <div class="oc-stats">
+        <div class="oc-stat"><b>${v.activePriorities}</b><span>Priorities</span></div>
+        <div class="oc-stat"><b>${v.risks}</b><span>Risks</span></div>
+        <div class="oc-stat"><b>${v.milestonesCompleted}</b><span>Milestones</span></div>
+      </div>
+      ${cta}
+    </div>
+  `;
+}
+
+overlayLayer.addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("click", () => {
+  overlayLayer.innerHTML = "";
+  activeId = null;
+  document.querySelectorAll(".node").forEach(n => n.classList.remove("active"));
+});
+
+/* ---- light content sections below the hero ---- */
+function renderHealthTags(ventures){
+  const counts = { "On Track": 0, "At Risk": 0, "Off Track": 0 };
+  ventures.forEach(v => counts[v.healthStatus] = (counts[v.healthStatus] || 0) + 1);
+  document.getElementById("healthTags").innerHTML = Object.entries(counts).map(([status, n]) => `
+    <div class="health-tag" style="color:${HEALTH_COLOR[status]}">
+      <span class="dot"></span><span style="color:var(--ink)">${status}</span>&nbsp;· ${n}
+    </div>
+  `).join("");
+}
+
+function renderGlanceStats(ventures){
+  const withUpdate = ventures.filter(v => PROJECT_UPDATES[v.id]).length;
+  document.getElementById("glanceStats").innerHTML = `
+    <div class="glance-stat"><b>${withUpdate}</b><span>Generated</span></div>
+    <div class="glance-stat"><b>${ventures.length - withUpdate}</b><span>Pending</span></div>
+    <div class="glance-stat"><b>${ventures.length}</b><span>Total ventures</span></div>
+  `;
+}
+
+async function init(){
+  const ventures = await loadVentureMap();
+  for (const v of ventures) {
+    v.pos = await loadVenturePosition(v.id);
+  }
+  stage.insertBefore(buildSVG(ventures), overlayLayer);
+  renderHealthTags(ventures);
+  renderGlanceStats(ventures);
+}
+
+init();
+
+</script>
+</body>
+</html>
