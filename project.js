@@ -1,27 +1,25 @@
 /* =====================================================================
-   RIMTHAN VENTURE GALAXY — GENERIC PROJECT PAGE RENDERER
+   RIMTHAN VENTURE GALAXY — PROJECT PAGE RENDERER
    Reads ?venture=<id> from the URL, then loads that venture's info
-   (loadVentureMap) and its latest update (loadProjectUpdate) — see
-   data.js. Works for any venture id with no page-specific code; a
-   venture with no update yet gets a clean "not generated" state
-   instead of an error. This is the file your AI generator's output
-   flows through once it's connected.
+   (loadVentureMap) and its latest stand-up (loadProjectUpdate) — see
+   data.js. Field names match the real weekly stand-up template, so
+   pasting a filled-in stand-up into data.js needs no translation.
    ===================================================================== */
 
 const HEALTH_COLOR = {
-  "On Track":  "#3FE0A6",
-  "At Risk":   "#F0A93B",
-  "Off Track": "#EF5D6C"
+  "On Track":  "#4FAE63",
+  "At Risk":   "#E8A23B",
+  "Off Track": "#E1584E"
 };
 
 function meterSVG(progress){
-  const r = 27, c = 2 * Math.PI * r;
+  const r = 25, c = 2 * Math.PI * r;
   const offset = c * (1 - progress / 100);
   return `
     <div class="meter">
-      <svg viewBox="0 0 64 64">
-        <circle class="track" cx="32" cy="32" r="${r}"></circle>
-        <circle class="value" cx="32" cy="32" r="${r}"
+      <svg viewBox="0 0 60 60">
+        <circle class="track" cx="30" cy="30" r="${r}"></circle>
+        <circle class="value" cx="30" cy="30" r="${r}"
           stroke-dasharray="${c.toFixed(1)}"
           stroke-dashoffset="${c.toFixed(1)}"
           data-target-offset="${offset.toFixed(1)}"></circle>
@@ -33,85 +31,105 @@ function meterSVG(progress){
 
 function renderEmptyState(ventureName){
   document.getElementById("updateBody").innerHTML = `
-    <div class="card card-full" style="text-align:center;padding:60px 30px;">
-      <h3 style="font-family:var(--font-display);font-size:19px;margin-bottom:10px;">
-        No weekly update yet for ${ventureName}
-      </h3>
-      <p style="color:var(--slate);font-size:14px;">
-        This venture's stand-up hasn't been generated this week. Check back once it's run.
-      </p>
+    <div class="card card-full">
+      <div class="empty-state">
+        <h3>No weekly stand-up yet for ${ventureName}</h3>
+        <p>This venture's update hasn't been generated this week. Check back once it's run.</p>
+      </div>
     </div>
   `;
 }
 
-function renderUpdate(d){
-  document.getElementById("weekLabel").textContent = d.weekLabel;
+function renderStrip(venture, d){
+  const color = HEALTH_COLOR[d.overallHealth] || "#93A39B";
+  document.getElementById("ventureStrip").innerHTML = `
+    <div class="strip-item"><span class="k">Venture</span><span class="v">${venture.name}</span></div>
+    <div class="strip-item"><span class="k">Venture Lead</span><span class="v">${d.ventureLead || "—"}</span></div>
+    <div class="strip-item"><span class="k">Stage</span><span class="v">${d.stage || "—"}</span></div>
+    <div class="strip-item"><span class="k">Overall Health</span><span class="v health" style="color:${color}"><span class="led"></span>${d.overallHealth}</span></div>
+    <div class="strip-logo">${venture.name}</div>
+  `;
+}
 
-  const healthColor = HEALTH_COLOR[d.overallHealth] || "#8B98B8";
-  document.getElementById("healthPill").style.color = healthColor;
-  document.getElementById("healthPill").innerHTML =
-    `<span class="led" style="background:${healthColor}"></span><span style="color:var(--ink)">${d.overallHealth}</span>`;
-
+function renderUpdate(venture, d){
   const prioritiesHTML = d.priorities.map(p => `
     <div class="card">
       <div class="card-head">
-        <div><h3>${p.team}</h3><small>${p.lead}</small></div>
+        <div><h3>${p.name}</h3><small>${p.stream} · ${p.team}</small></div>
         ${meterSVG(p.progress)}
       </div>
       <ul class="bullet-list">
-        ${p.meetings.map(m => `<li>${m}</li>`).join("")}
+        ${p.progressNotes.map(n => `<li>${n}</li>`).join("")}
       </ul>
-      <a class="next-step" href="#">${p.nextStep}</a>
+      ${p.nextStep ? `<a class="next-step" href="#">${p.nextStep}</a>` : ""}
+      ${p.notes ? `<p style="margin-top:12px;font-size:13px;color:var(--ink-faint);">${p.notes}</p>` : ""}
     </div>
   `).join("");
+
+  const keyWinsHTML = d.keyWins.length
+    ? `<ul class="bullet-list">${d.keyWins.map(w => `<li>${w}</li>`).join("")}</ul>`
+    : `<p class="empty-list">No wins logged this week.</p>`;
+
+  const risksHTML = d.risks.length
+    ? d.risks.map(r => `
+        <div class="risk-card card">
+          <div class="risk-head">
+            <span class="led" style="color:${r.severity === "High" ? "var(--off-track)" : r.severity === "Low" ? "var(--on-track)" : "var(--at-risk)"}"></span>
+            <h4>${r.item} · ${r.stream}</h4>
+            <span class="severity-tag">Severity: ${r.severity}</span>
+          </div>
+          <p>${r.mitigation || "No mitigation action logged yet."}</p>
+        </div>
+      `).join("")
+    : `<div class="card"><p class="empty-list">No risks or blockers this week.</p></div>`;
+
+  const supportHTML = d.support.filter(s => s.type || s.person).length
+    ? d.support.filter(s => s.type || s.person).map(s => `
+        <div class="support-card card">
+          <div class="support-row">
+            <p><strong>${s.type || "Support needed"}</strong>${s.person ? ` — ${s.person}` : ""}</p>
+            <button class="support-btn" type="button">Approve request</button>
+          </div>
+        </div>
+      `).join("")
+    : `<div class="card"><p class="empty-list">No leadership support requested this week.</p></div>`;
 
   const allPoints = [
     ...d.timeline.completed.map(label => ({ label, done: true })),
     ...d.timeline.targets.map(label => ({ label, done: false }))
   ];
-  const donePct = (d.timeline.completed.length / allPoints.length) * 100;
+  const donePct = allPoints.length ? (d.timeline.completed.length / allPoints.length) * 100 : 0;
+
+  const timelineHTML = allPoints.length ? `
+    <div class="timeline-wrap">
+      <span class="tl-tag">${d.timeline.completed.length} completed &middot; ${d.timeline.targets.length} targeted this week</span>
+      <div class="timeline-track" style="background:linear-gradient(90deg, var(--on-track) 0%, var(--on-track) ${donePct}%, var(--hairline) ${donePct}%, var(--hairline) 100%);"></div>
+      <div class="timeline-points">
+        ${allPoints.map(p => `
+          <div class="tl-point ${p.done ? "" : "pending"}">
+            <div class="tl-dot"></div>
+            <span>${p.label}</span>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  ` : `<p class="empty-list">No milestones logged yet.</p>`;
 
   document.getElementById("updateBody").innerHTML = `
-    <div class="card-grid" style="margin-bottom:22px;">${prioritiesHTML}</div>
+    <div class="section-label" style="margin-top:0;">Key Priorities</div>
+    <div class="card-grid">${prioritiesHTML}</div>
 
-    <div class="card card-full" style="margin-bottom:22px;">
-      <div class="card-head"><div><h3>Key Wins</h3><small>Last week</small></div></div>
-      <ul class="bullet-list">${d.keyWins.map(w => `<li>${w}</li>`).join("")}</ul>
-    </div>
+    <div class="section-label">Key Wins Last Week</div>
+    <div class="card card-full" style="margin-bottom:20px;">${keyWinsHTML}</div>
 
-    <div class="card-grid" style="margin-bottom:22px;">
-      <div class="card risk-card">
-        <div class="risk-head">
-          <span class="led" style="color:var(--at-risk)"></span>
-          <h3 style="font-family:var(--font-display);font-size:16px;">${d.risk.stream} · ${d.risk.owner}</h3>
-        </div>
-        <span class="severity-tag" style="margin-bottom:12px;display:inline-block;">Severity: ${d.risk.severity}</span>
-        <p>${d.risk.note}</p>
-      </div>
-      <div class="card support-card">
-        <div>
-          <h3 style="font-family:var(--font-display);font-size:16px;margin-bottom:8px;">${d.support.type}</h3>
-          <p><strong style="color:var(--ink)">Person involved:</strong> ${d.support.person} — ${d.support.note}</p>
-        </div>
-        <button class="support-btn" type="button">Approve request</button>
-      </div>
-    </div>
+    <div class="section-label">Risks or Blockers</div>
+    <div style="margin-bottom:20px;">${risksHTML}</div>
 
-    <div class="card card-full">
-      <div class="card-head"><div><h3>Weekly Timeline</h3><small>Completed &amp; this week's targets</small></div></div>
-      <div class="timeline-wrap">
-        <span class="tl-tag">${d.timeline.completed.length} completed &middot; ${d.timeline.targets.length} targeted this week</span>
-        <div class="timeline-track" style="background:linear-gradient(90deg, var(--on-track) 0%, var(--on-track) ${donePct}%, var(--panel-edge) ${donePct}%, var(--panel-edge) 100%);"></div>
-        <div class="timeline-points">
-          ${allPoints.map(p => `
-            <div class="tl-point ${p.done ? "" : "pending"}">
-              <div class="tl-dot"></div>
-              <span>${p.label}</span>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </div>
+    <div class="section-label">Leadership Support Needed</div>
+    <div style="margin-bottom:20px;">${supportHTML}</div>
+
+    <div class="section-label">Weekly Timeline</div>
+    <div class="card card-full">${timelineHTML}</div>
   `;
 
   window.requestAnimationFrame(() => {
@@ -130,17 +148,21 @@ async function init(){
   const ventures = await loadVentureMap();
   const venture = ventures.find(v => v.id === ventureId) || ventures[0];
 
-  document.title = `${venture.name} · Weekly Update · Rimthan`;
+  document.title = `${venture.name} · Weekly Stand-up · Rimthan`;
   document.getElementById("crumbName").textContent = venture.name;
-  document.getElementById("ventureTitle").textContent = `${venture.name} — Weekly Update`;
 
   const update = await loadProjectUpdate(venture.id);
   if (!update) {
-    document.getElementById("healthPill").style.display = "none";
+    document.getElementById("ventureStrip").innerHTML = `
+      <div class="strip-item"><span class="k">Venture</span><span class="v">${venture.name}</span></div>
+      <div class="strip-item"><span class="k">Overall Health</span><span class="v health" style="color:${HEALTH_COLOR[venture.healthStatus]}"><span class="led"></span>${venture.healthStatus}</span></div>
+      <div class="strip-logo">${venture.name}</div>
+    `;
     renderEmptyState(venture.name);
     return;
   }
-  renderUpdate(update);
+  renderStrip(venture, update);
+  renderUpdate(venture, update);
 }
 
 init();
