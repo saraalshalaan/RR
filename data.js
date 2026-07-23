@@ -1,16 +1,14 @@
 /* =====================================================================
    RIMTHAN VENTURE GALAXY — DATA SOURCE
    ---------------------------------------------------------------------
-   Everything the map and project pages render lives in this one file.
-   Update these objects and the UI updates automatically — no markup
-   or script changes required.
+   Field names below mirror Rimthan's actual weekly stand-up template
+   (Venture / Venture Lead / Stage / Overall Health, Key Priorities,
+   Key Wins, Risks/Blockers, Leadership Support Needed) so filling this
+   in from a real stand-up doc is a direct copy, not a translation.
    ===================================================================== */
 
 /* ----------------------------------------------------------------------
-   1. VENTURE MAP DATA
-   One entry per node on the Venture Galaxy chart (index.html).
-   x / y are position coordinates on a 1200 x 640 chart plane —
-   move a venture by changing these two numbers.
+   1. VENTURE MAP DATA — one entry per node on the Venture Galaxy chart
    ---------------------------------------------------------------------- */
 const VENTURE_MAP = [
   {
@@ -18,10 +16,9 @@ const VENTURE_MAP = [
     name: "Takamol",
     tagline: "Workforce mobility platform",
     healthStatus: "On Track",       // "On Track" | "At Risk" | "Off Track"
-    activePriorities: 6,
+    activePriorities: 2,
     risks: 1,
-    milestonesCompleted: 14,
-    iconImageUrl: "assets/icons/takamol.svg" // placeholder
+    milestonesCompleted: 6
   },
   {
     id: "aether",
@@ -30,8 +27,7 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 4,
     risks: 0,
-    milestonesCompleted: 9,
-    iconImageUrl: "assets/icons/aether.svg"
+    milestonesCompleted: 9
   },
   {
     id: "novafreight",
@@ -40,8 +36,7 @@ const VENTURE_MAP = [
     healthStatus: "At Risk",
     activePriorities: 5,
     risks: 3,
-    milestonesCompleted: 7,
-    iconImageUrl: "assets/icons/novafreight.svg"
+    milestonesCompleted: 7
   },
   {
     id: "orbithealth",
@@ -50,8 +45,7 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 3,
     risks: 1,
-    milestonesCompleted: 11,
-    iconImageUrl: "assets/icons/orbithealth.svg"
+    milestonesCompleted: 11
   },
   {
     id: "helios",
@@ -60,13 +54,12 @@ const VENTURE_MAP = [
     healthStatus: "Off Track",
     activePriorities: 2,
     risks: 4,
-    milestonesCompleted: 3,
-    iconImageUrl: "assets/icons/helios.svg"
+    milestonesCompleted: 3
   }
 ];
 
-/* fixed chart coordinates, kept separate from business data on purpose —
-   an AI-generated feed should never need to know where a dot sits on screen */
+/* chart coordinates, kept separate from business data — an AI feed
+   should never need to know where a dot sits on screen */
 const VENTURE_POSITIONS = {
   takamol:     { x: 190,  y: 430, bearing: "N24° · E118°" },
   aether:      { x: 430,  y: 215, bearing: "N41° · E122°" },
@@ -76,70 +69,80 @@ const VENTURE_POSITIONS = {
 };
 
 /* ----------------------------------------------------------------------
-   2. WEEKLY PROJECT UPDATES
-   Keyed by venture id. Powers project.html?venture=<id>.
-   Only "takamol" has a sample update below — that's intentional. Once
-   your AI generator is connected, it can add/replace an entry here (or,
-   with USE_LIVE_DATA on, return one straight from the API) for ANY
-   venture id from VENTURE_MAP, and project.html will render it with no
-   code changes. A venture with no entry here shows a "not generated
-   yet" state instead of erroring.
+   2. WEEKLY PROJECT UPDATES — keyed by venture id.
+   Powers project.html?venture=<id>. Shape mirrors the real stand-up
+   template exactly:
+     venture, ventureLead, stage, overallHealth   — header strip
+     priorities[]  — one row per stream (name, stream, team, progress,
+                     progressNotes[], nextStep, notes)
+     keyWins[]     — "Key wins last week"
+     risks[]       — "Risks or blockers" (item, stream, severity, mitigation)
+     support[]     — "Leadership support needed" (type, person)
+     timeline      — completed vs this week's targets
+
+   Only "takamol" has a real update below. A venture with no entry
+   here renders a "not generated yet" state instead of erroring —
+   exactly what you want once the AI stand-up starts filling these in
+   automatically week to week.
    ---------------------------------------------------------------------- */
 const PROJECT_UPDATES = {
   takamol: {
+    ventureLead: "Ali",
+    stage: "MVB, handover",
     weekLabel: "Week of Jul 20 – Jul 24",
     overallHealth: "On Track",
 
-    // Active Priorities: two focus areas (BizDev + Tech)
     priorities: [
       {
-        team: "Business Development Taskforce",
-        lead: "BORD",
+        name: "Business Development Taskforce",
+        stream: "BORD",
+        team: "Feras, Ibrahim",
         progress: 95,
-        meetings: [
-          "4 meetings set with strategic partners",
-          "3 meetings completed this week"
+        progressNotes: [
+          "Albawani — start the procurement process",
+          "Meeting done: Proline, ToYou, THA, EFSIM",
+          "Meeting set: Oriental Yields Ltd., Tamkeen HR, Al-Suwaidi Holding Co."
         ],
-        nextStep: "Demo · Proline"
+        nextStep: "Demo · Proline",
+        notes: ""
       },
       {
-        team: "Tech",
-        lead: "Kuba",
+        name: "Tech",
+        stream: "BORD",
+        team: "Kuba",
         progress: 99,
-        meetings: [
-          "RELEASE DONE — core checkout module",
-          "Marketplace integration live on Checkout.com"
+        progressNotes: [
+          "Course assignment per user/team/org & PDPL — RELEASE DONE, production",
+          "Now: Marketplace + Checkout.com release, waiting for prod card approval"
         ],
-        nextStep: "Go-live · Marketplace"
+        nextStep: "",
+        notes: ""
       }
     ],
 
-    // Key Wins (last week)
     keyWins: [
-      "Meeting done — signed intent with anchor partner",
-      "4 new meetings set for next sprint",
-      "RELEASE DONE — checkout module shipped to production"
+      // populate from "Key wins last week" — empty this week
     ],
 
-    // Risks / Blockers
-    risk: {
-      stream: "Stream Commercial",
-      owner: "BORD",
-      severity: "Medium",
-      note: "Commercial terms pending legal sign-off before rollout can proceed."
-    },
+    risks: [
+      {
+        item: "Stream Commercial",
+        stream: "BORD",
+        severity: "Medium",
+        mitigation: ""
+      }
+    ],
 
-    // Leadership Support Needed
-    support: {
-      type: "Provide prod card approval",
-      person: "Kuba",
-      note: "Blocking the Checkout.com marketplace go-live until approved."
-    },
+    support: [
+      {
+        type: "",
+        person: ""
+      }
+    ],
 
-    // Weekly timeline: completed milestones + this week's targets
     timeline: {
-      completed: ["Meeting done", "Meeting set", "RELEASE DONE"],
-      targets: ["Prod card approval", "Demo · Proline", "Marketplace go-live"]
+      completed: [],
+      targets: ["Demo · Proline", "Marketplace go-live"]
     }
   }
 
@@ -150,39 +153,34 @@ const PROJECT_UPDATES = {
 /* ----------------------------------------------------------------------
    3. LIVE DATA CONNECTOR — the seam for your AI stand-up generator
    ---------------------------------------------------------------------
-   Everything on this page currently reads through the two functions
-   below instead of touching VENTURE_MAP / PROJECT_UPDATES directly.
-   That's the whole point: today they just hand back the static objects
-   above. When your generator is ready, flip USE_LIVE_DATA to true and
-   fill in the two fetch() calls — nothing in map.js or detail.js needs
-   to change, because they already just `await` these functions.
+   Everything reads through the functions below instead of touching
+   VENTURE_MAP / PROJECT_UPDATES directly. Today they just hand back
+   the static objects above. When your generator is ready, flip
+   USE_LIVE_DATA to true and fill in the fetch() calls — nothing in
+   map.js or project.js needs to change.
 
-   Suggested shape for your API responses (so no other code changes):
+   Suggested API shape (so no other code changes):
      GET /ventures            -> VENTURE_MAP  (array, same fields)
      GET /ventures/:id/update -> one PROJECT_UPDATES[id] object, or
-                                  404 / null if that venture has no
-                                  update generated yet this week
+                                  404 / null if not generated yet
    ---------------------------------------------------------------------- */
 const USE_LIVE_DATA = false; // flip to true once your backend is live
 
 async function loadVentureMap(){
   if (USE_LIVE_DATA) {
-    // TODO: point this at your AI backend, e.g.
-    // const res = await fetch("https://your-api.com/ventures");
+    // TODO: const res = await fetch("https://your-api.com/ventures");
     // return await res.json();
   }
   return VENTURE_MAP;
 }
 
 async function loadVenturePosition(id){
-  // chart coordinates always stay local — no reason for the AI feed to manage layout
   return VENTURE_POSITIONS[id] || { x: 600, y: 340, bearing: "" };
 }
 
 async function loadProjectUpdate(ventureId){
   if (USE_LIVE_DATA) {
-    // TODO: point this at your AI backend, e.g.
-    // const res = await fetch(`https://your-api.com/ventures/${ventureId}/update`);
+    // TODO: const res = await fetch(`https://your-api.com/ventures/${ventureId}/update`);
     // if (!res.ok) return null;
     // return await res.json();
   }
