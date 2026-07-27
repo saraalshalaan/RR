@@ -21,7 +21,10 @@ const VENTURE_MAP = [
     healthStatus: "On Track",       // "On Track" | "At Risk" | "Off Track"
     activePriorities: 2,
     risks: 1,
-    milestonesCompleted: 6
+    milestonesCompleted: 6,
+    archived: false                 // set true once a venture is handed off / submitted —
+                                     // it stays in the data (nothing is deleted) but drops
+                                     // out of the default dashboard view
   },
   {
     id: "aether",
@@ -30,7 +33,8 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 4,
     risks: 0,
-    milestonesCompleted: 9
+    milestonesCompleted: 9,
+    archived: false
   },
   {
     id: "novafreight",
@@ -39,7 +43,8 @@ const VENTURE_MAP = [
     healthStatus: "At Risk",
     activePriorities: 5,
     risks: 3,
-    milestonesCompleted: 7
+    milestonesCompleted: 7,
+    archived: false
   },
   {
     id: "orbithealth",
@@ -48,7 +53,8 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 3,
     risks: 1,
-    milestonesCompleted: 11
+    milestonesCompleted: 11,
+    archived: false
   },
   {
     id: "helios",
@@ -57,7 +63,8 @@ const VENTURE_MAP = [
     healthStatus: "Off Track",
     activePriorities: 2,
     risks: 4,
-    milestonesCompleted: 3
+    milestonesCompleted: 3,
+    archived: false
   }
 
   // Add more ventures the same way — the dashboard's search, filter
@@ -83,7 +90,8 @@ const DEMO_FILLER_VENTURES = (() => {
       healthStatus: healths[i % healths.length],
       activePriorities: (i % 5) + 1,
       risks: i % 4,
-      milestonesCompleted: (i * 3) % 20
+      milestonesCompleted: (i * 3) % 20,
+      archived: false
     });
   }
   return out;
