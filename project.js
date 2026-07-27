@@ -7,9 +7,9 @@
    ===================================================================== */
 
 const HEALTH_COLOR = {
-  "On Track":  "#4FAE63",
-  "At Risk":   "#E8A23B",
-  "Off Track": "#E1584E"
+  "On Track":  "#1F6FE0",
+  "At Risk":   "#C97C1D",
+  "Off Track": "#C43D3D"
 };
 
 function meterSVG(progress){
@@ -49,6 +49,11 @@ function renderStrip(venture, d){
     <div class="strip-item"><span class="k">Overall Health</span><span class="v health" style="color:${color}"><span class="led"></span>${d.overallHealth}</span></div>
     <div class="strip-logo">${venture.name}</div>
   `;
+
+  if (d.meta) {
+    document.getElementById("generatedMeta").textContent =
+      `Generated from ${d.meta.generatedFrom.toLowerCase()} · ${d.meta.generatedAt}`;
+  }
 }
 
 function renderUpdate(venture, d){
@@ -159,10 +164,36 @@ async function init(){
       <div class="strip-logo">${venture.name}</div>
     `;
     renderEmptyState(venture.name);
-    return;
+  } else {
+    renderStrip(venture, update);
+    renderUpdate(venture, update);
   }
-  renderStrip(venture, update);
-  renderUpdate(venture, update);
+
+  const generateBtn = document.getElementById("generateBtn");
+  const statusEl = document.getElementById("generateStatus");
+  generateBtn.addEventListener("click", async () => {
+    const transcript = document.getElementById("transcriptInput").value.trim();
+    if (!transcript) {
+      statusEl.textContent = "Paste a transcript first.";
+      statusEl.className = "generate-status warn";
+      return;
+    }
+    generateBtn.disabled = true;
+    statusEl.textContent = "Generating…";
+    statusEl.className = "generate-status";
+
+    const result = await generateStandupFromTranscript(venture.id, transcript);
+
+    generateBtn.disabled = false;
+    if (!result) {
+      statusEl.textContent = "AI generation isn't connected yet — this is where the stand-up will appear once your pipeline is wired in.";
+      statusEl.className = "generate-status warn";
+      return;
+    }
+    statusEl.textContent = "Stand-up generated.";
+    renderStrip(venture, result);
+    renderUpdate(venture, result);
+  });
 }
 
 init();
