@@ -1,4 +1,4 @@
- /* =====================================================================
+/* =====================================================================
    RIMTHAN VENTURE GALAXY — DATA SOURCE
    ---------------------------------------------------------------------
    Field names below mirror Rimthan's actual weekly stand-up template
@@ -8,7 +8,10 @@
    ===================================================================== */
 
 /* ----------------------------------------------------------------------
-   1. VENTURE MAP DATA — one entry per node on the Venture Galaxy chart
+   1. VENTURE DIRECTORY — one entry per venture card on the dashboard.
+   This drives a searchable, filterable GRID rather than a fixed map,
+   on purpose: a grid works whether there are 5 ventures or 500. Add a
+   venture by adding an object here — nothing else needs to change.
    ---------------------------------------------------------------------- */
 const VENTURE_MAP = [
   {
@@ -56,29 +59,50 @@ const VENTURE_MAP = [
     risks: 4,
     milestonesCompleted: 3
   }
+
+  // Add more ventures the same way — the dashboard's search, filter
+  // and grid all scale automatically. The block below appends 45 demo
+  // placeholders (purely so you can see the grid behave at ~50
+  // ventures) — delete DEMO_FILLER_VENTURES and the lines that spread
+  // it in below once you have real ventures to replace them with.
 ];
 
-/* chart coordinates, kept separate from business data — an AI feed
-   should never need to know where a dot sits on screen */
-const VENTURE_POSITIONS = {
-  takamol:     { x: 190,  y: 430, bearing: "N24° · E118°" },
-  aether:      { x: 430,  y: 215, bearing: "N41° · E122°" },
-  novafreight: { x: 655,  y: 465, bearing: "N08° · E131°" },
-  orbithealth: { x: 885,  y: 195, bearing: "N53° · E140°" },
-  helios:      { x: 1075, y: 405, bearing: "N02° · E152°" }
-};
+const DEMO_FILLER_VENTURES = (() => {
+  const prefixes = ["Nimbus","Cedar","Falcon","Marlin","Delta","Onyx","Vertex","Lumen","Atlas","Quartz",
+                     "Harbor","Ridge","Pioneer","Zenith","Solace","Meridian","Anchor","Beacon","Cobalt","Drift"];
+  const suffixes = ["Labs","Works","Systems","Health","Logistics","Energy","Mobility","Retail","Finance","Robotics"];
+  const healths = ["On Track","On Track","On Track","At Risk","Off Track"];
+  const out = [];
+  for (let i = 0; i < 45; i++){
+    const p = prefixes[i % prefixes.length];
+    const s = suffixes[(i + 3) % suffixes.length];
+    out.push({
+      id: `demo-${i+1}`,
+      name: `${p} ${s}`,
+      tagline: "Demo venture — replace with real data",
+      healthStatus: healths[i % healths.length],
+      activePriorities: (i % 5) + 1,
+      risks: i % 4,
+      milestonesCompleted: (i * 3) % 20
+    });
+  }
+  return out;
+})();
+
+VENTURE_MAP.push(...DEMO_FILLER_VENTURES);
 
 /* ----------------------------------------------------------------------
    2. WEEKLY PROJECT UPDATES — keyed by venture id.
    Powers project.html?venture=<id>. Shape mirrors the real stand-up
    template exactly:
+     meta            — how/when this update was produced
      venture, ventureLead, stage, overallHealth   — header strip
-     priorities[]  — one row per stream (name, stream, team, progress,
-                     progressNotes[], nextStep, notes)
-     keyWins[]     — "Key wins last week"
-     risks[]       — "Risks or blockers" (item, stream, severity, mitigation)
-     support[]     — "Leadership support needed" (type, person)
-     timeline      — completed vs this week's targets
+     priorities[]    — one row per stream (name, stream, team, progress,
+                       progressNotes[], nextStep, notes)
+     keyWins[]       — "Key wins last week"
+     risks[]         — "Risks or blockers" (item, stream, severity, mitigation)
+     support[]       — "Leadership support needed" (type, person)
+     timeline        — completed vs this week's targets
 
    Only "takamol" has a real update below. A venture with no entry
    here renders a "not generated yet" state instead of erroring —
@@ -87,6 +111,10 @@ const VENTURE_POSITIONS = {
    ---------------------------------------------------------------------- */
 const PROJECT_UPDATES = {
   takamol: {
+    meta: {
+      generatedFrom: "Meeting transcript",   // vs. "Manual entry"
+      generatedAt: "Jul 24, 2026"
+    },
     ventureLead: "Ali",
     stage: "MVB, handover",
     weekLabel: "Week of Jul 20 – Jul 24",
@@ -157,12 +185,14 @@ const PROJECT_UPDATES = {
    VENTURE_MAP / PROJECT_UPDATES directly. Today they just hand back
    the static objects above. When your generator is ready, flip
    USE_LIVE_DATA to true and fill in the fetch() calls — nothing in
-   map.js or project.js needs to change.
+   the page scripts needs to change.
 
    Suggested API shape (so no other code changes):
-     GET /ventures            -> VENTURE_MAP  (array, same fields)
-     GET /ventures/:id/update -> one PROJECT_UPDATES[id] object, or
-                                  404 / null if not generated yet
+     GET  /ventures                  -> VENTURE_MAP  (array, same fields)
+     GET  /ventures/:id/update       -> one PROJECT_UPDATES[id] object, or
+                                        404 / null if not generated yet
+     POST /ventures/:id/generate     -> { transcript } in, one
+                                        PROJECT_UPDATES[id]-shaped object out
    ---------------------------------------------------------------------- */
 const USE_LIVE_DATA = false; // flip to true once your backend is live
 
@@ -174,10 +204,6 @@ async function loadVentureMap(){
   return VENTURE_MAP;
 }
 
-async function loadVenturePosition(id){
-  return VENTURE_POSITIONS[id] || { x: 600, y: 340, bearing: "" };
-}
-
 async function loadProjectUpdate(ventureId){
   if (USE_LIVE_DATA) {
     // TODO: const res = await fetch(`https://your-api.com/ventures/${ventureId}/update`);
@@ -185,4 +211,23 @@ async function loadProjectUpdate(ventureId){
     // return await res.json();
   }
   return PROJECT_UPDATES[ventureId] || null;
+}
+
+/* Generates (or regenerates) a venture's weekly stand-up from a pasted
+   meeting transcript. This is the exact seam for "take a script from
+   the meeting and turn it into the stand-up" — today it's a stub that
+   returns null so the UI can show an honest "not connected yet" state
+   instead of pretending to work. */
+async function generateStandupFromTranscript(ventureId, transcriptText){
+  if (USE_LIVE_DATA) {
+    // TODO: const res = await fetch(`https://your-api.com/ventures/${ventureId}/generate`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ transcript: transcriptText })
+    // });
+    // const update = await res.json();
+    // PROJECT_UPDATES[ventureId] = update; // cache for this session
+    // return update;
+  }
+  return null;
 }
