@@ -17,11 +17,13 @@ let activeFilter = "All";
 let searchTerm = "";
 
 function renderFilterPills(){
-  const statuses = ["All", "On Track", "At Risk", "Off Track"];
+  // "Completed" is separate from health — a venture that's been handed off
+  // isn't On Track/At Risk/Off Track anymore, it's just done.
+  const statuses = ["All", "On Track", "At Risk", "Off Track", "Completed"];
   document.getElementById("healthFilters").innerHTML = statuses.map(s => `
     <button class="filter-pill ${s === activeFilter ? "active" : ""}" data-status="${s}"
-      style="${s !== "All" ? `color:${HEALTH_COLOR[s]}` : ""}">
-      ${s !== "All" ? `<span class="dot"></span>` : ""}${s}
+      style="${s !== "All" && s !== "Completed" ? `color:${HEALTH_COLOR[s]}` : ""}">
+      ${s !== "All" && s !== "Completed" ? `<span class="dot"></span>` : ""}${s}
     </button>
   `).join("");
 
@@ -37,9 +39,15 @@ function renderFilterPills(){
 function renderGrid(){
   const term = searchTerm.trim().toLowerCase();
   const filtered = ALL_VENTURES.filter(v => {
-    const matchesHealth = activeFilter === "All" || v.healthStatus === activeFilter;
     const matchesSearch = !term || v.name.toLowerCase().includes(term) || v.tagline.toLowerCase().includes(term);
-    return matchesHealth && matchesSearch;
+    if (!matchesSearch) return false;
+
+    // "Completed" pill shows archived ventures; every other pill (including
+    // "All") shows only active ones — a finished venture doesn't clutter
+    // the default view, but nothing about it is deleted.
+    if (activeFilter === "Completed") return v.archived;
+    if (v.archived) return false;
+    return activeFilter === "All" || v.healthStatus === activeFilter;
   });
 
   document.getElementById("resultCount").textContent =
@@ -54,10 +62,12 @@ function renderGrid(){
   grid.innerHTML = filtered.map(v => {
     const color = HEALTH_COLOR[v.healthStatus] || "#93A39B";
     return `
-      <a class="venture-card" href="project.html?venture=${v.id}">
+      <a class="venture-card ${v.archived ? "archived" : ""}" href="project.html?venture=${v.id}">
         <div class="vc-top">
           <span class="vc-name">${v.name}</span>
-          <span class="vc-health-dot" style="color:${color}"></span>
+          ${v.archived
+            ? `<span class="vc-completed-badge">✓ Completed</span>`
+            : `<span class="vc-health-dot" style="color:${color}"></span>`}
         </div>
         <div class="vc-tagline">${v.tagline}</div>
         <div class="vc-stats">
