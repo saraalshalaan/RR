@@ -6,20 +6,20 @@
 <title>Rimthan · Venture Galaxy</title>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body class="map-page">
 
-  <!-- ================= HEADER (shared) ================= -->
+  <!-- ================= HEADER ================= -->
   <header class="header">
     <a href="index.html" class="brand">
       <span class="brand-mark"></span>
       <span class="brand-word">Rimthan</span>
     </a>
     <nav>
-      <a href="https://framework.rimthan.cloud/home/">Framework</a>
-      <a href="https://framework.rimthan.cloud/skills/?item=mcp">Rimthan for Claude</a>
-       <a href="index.html" class="active">Weakly Standup</a>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="#">Projects</a>
+      <a href="#">Reports</a>
     </nav>
     <div class="header-right">
       <div class="search-pill">
@@ -33,61 +33,150 @@
   </header>
 
   <main>
-    <!-- ================= HERO: dark card + interactive chart ================= -->
-    <div class="hero-card">
-      <div class="hero-eyebrow">Venture Galaxy · Weekly Stand-up</div>
-      <h1>Every venture's <span class="accent">weekly pulse</span>, in one place.</h1>
-      <p class="lede">Follow the route to any venture Rimthan is building. Click a node for its health at a glance, or step straight into this week's AI-generated stand-up.</p>
-
-      <div class="chart-stage" id="chartStage">
-        <!-- galaxy chart SVG is rendered by map.js -->
-        <div class="overlay-layer" id="overlayLayer"></div>
+    <!-- ================= POSTER HERO ================= -->
+    <section class="poster-hero">
+      <div class="poster-eyebrow">Venture Galaxy · Weekly Stand-up</div>
+      <h1>
+        WE TURN EVERY <span class="word-wrap">MEETING<svg class="scribble-circle" viewBox="0 0 320 110" style="left:-6%;top:-30%;width:112%;height:170%;"><ellipse cx="160" cy="55" rx="155" ry="48" transform="rotate(-4 160 55)"/></svg></span>
+        INTO A <span class="glow-word">READABLE STAND-UP.</span>
+      </h1>
+      <p class="lede">Paste this week's meeting transcript and Rimthan organizes it into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
+      <div class="btn-row">
+        <a class="btn-dark" href="project.html?venture=takamol">See a real stand-up ↗</a>
+        <a class="btn-line" href="#how-it-works">How it works</a>
       </div>
+    </section>
 
-      <div class="hero-cta-row">
-        <a class="btn-lime" href="project.html?venture=takamol">Open Takamol's stand-up <span>→</span></a>
-        <a class="btn-outline" href="#glance">View this week at a glance</a>
+    <!-- ================= SEARCHABLE / FILTERABLE VENTURE GRID ================= -->
+    <div class="toolbar">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M20 20L16.65 16.65" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" class="search-input" id="ventureSearch" placeholder="Search ventures…">
       </div>
+      <div class="filter-pills" id="healthFilters"><!-- filled by map.js --></div>
+      <div class="result-count" id="resultCount"></div>
     </div>
-
+    <div class="venture-grid" id="ventureGrid"><!-- filled by map.js --></div>
     <div class="map-legend">
-      <div class="legend-item" data-health="On Track" style="color:var(--on-track)"><span class="legend-dot"></span> On Track</div>
-      <div class="legend-item" data-health="At Risk" style="color:var(--at-risk)"><span class="legend-dot"></span> At Risk</div>
-      <div class="legend-item" data-health="Off Track" style="color:var(--off-track)"><span class="legend-dot"></span> Off Track</div>
+      <div class="legend-item" style="color:var(--on-track)"><span class="legend-dot"></span> On Track</div>
+      <div class="legend-item" style="color:var(--at-risk)"><span class="legend-dot"></span> At Risk</div>
+      <div class="legend-item" style="color:var(--off-track)"><span class="legend-dot"></span> Off Track</div>
     </div>
 
-    <!-- ================= AI STAND-UP FEATURE BANNER ================= -->
-    <div class="section-label">New</div>
-    <div class="feature-banner">
-      <div class="feature-banner-left">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L14 8L20 10L14 12L12 18L10 12L4 10L10 8L12 2Z" fill="white"/>
-          </svg>
-        </div>
-        <div>
-          <h3>AI Weekly Stand-up <span class="pill-new">NEW</span></h3>
-          <p>Every venture's update — priorities, wins, risks, leadership asks — generated automatically each week and dropped straight into its page. No manual write-up required.</p>
-        </div>
-      </div>
-      <a class="btn-white" href="project.html?venture=takamol">See it in action →</a>
-    </div>
+    <!-- ================= HOW IT WORKS: NUMBERED ACCORDION ================= -->
+    <section id="how-it-works">
+      <h2 class="section-heading">How the transcript feature works</h2>
+      <p class="section-sub">Not translation between languages — translation from raw conversation into something worth reading. Four steps, no manual write-up.</p>
 
-    <!-- ================= AT A GLANCE ================= -->
-    <div class="section-label" id="glance">This week at a glance</div>
-    <div class="info-grid">
-      <div class="info-card">
-        <h4>Browse by health</h4>
-        <p class="desc">Every venture's current status, generated fresh each week.</p>
-        <div class="health-tags" id="healthTags"><!-- filled by map.js --></div>
+      <div class="accordion" id="accordion">
+        <div class="acc-row open" data-row="1">
+          <div class="acc-row-top">
+            <span class="acc-num display">01</span>
+            <span class="acc-title">Paste the meeting transcript</span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Drop the raw call transcript or notes into a venture's stand-up page — no formatting or cleanup needed first.</p></div>
+        </div>
+        <div class="acc-row" data-row="2">
+          <div class="acc-row-top">
+            <span class="acc-num display">02</span>
+            <span class="acc-title">Rimthan structures it</span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Priorities, wins, risks, blockers and leadership asks get pulled out and sorted into the same fields your team already reports on.</p></div>
+        </div>
+        <div class="acc-row" data-row="3">
+          <div class="acc-row-top">
+            <span class="acc-num display">03</span>
+            <span class="acc-title">Review and fine-tune</span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Nothing publishes blind — a venture lead can edit any field before it's shared, the same way they'd mark up a doc.</p></div>
+        </div>
+        <div class="acc-row" data-row="4">
+          <div class="acc-row-top">
+            <span class="acc-num display">04</span>
+            <span class="acc-title">Share the read-back</span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Anyone who missed the call — or wants to check back weeks later — opens the venture's page and reads the stand-up, not the transcript.</p></div>
+        </div>
       </div>
-      <div class="info-card">
-        <h4>Stand-up coverage</h4>
-        <p class="desc">How many ventures have an AI-generated update this week.</p>
-        <div class="glance-stats" id="glanceStats"><!-- filled by map.js --></div>
+    </section>
+
+    <!-- ================= TRANSCRIPT MOCKUP ILLUSTRATION ================= -->
+    <section class="mockup-section">
+      <div class="mockup-visual">
+        <div class="mockup-pane raw">
+          <div class="mp-label">Raw transcript</div>
+          <p>
+            <span>Ali: so BizDev is at ninety five percent...</span>
+            <span>Feras: yeah we did the Proline meeting...</span>
+            <span>Kuba: release is done, waiting on prod card...</span>
+            <span>Ali: commercial stream is medium risk...</span>
+          </p>
+        </div>
+        <div class="mockup-arrow">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mockup-pane structured">
+          <div class="mp-label">Structured stand-up</div>
+          <div class="mp-row"><span class="mp-dot"></span>Business Development — 95%</div>
+          <div class="mp-bar"><div class="mp-bar-fill" style="width:95%"></div></div>
+          <div class="mp-row" style="margin-top:16px;"><span class="mp-dot" style="background:var(--at-risk)"></span>Risk: Stream Commercial · Medium</div>
+          <div class="mp-row"><span class="mp-dot"></span>Next step: Demo · Proline</div>
+        </div>
       </div>
-    </div>
+      <div class="mockup-copy">
+        <h2 class="section-heading">Built for catching up, not just reporting</h2>
+        <p>People join late, come back from leave, or just weren't on the call. This isn't a transcript viewer — it's the stand-up, ready to read in under a minute.</p>
+        <ul>
+          <li>Same fields your team already reports on</li>
+          <li>Works for one venture or fifty</li>
+          <li>Nothing publishes without review</li>
+        </ul>
+        <a class="btn-dark" href="project.html?venture=takamol">Try it on Takamol ↗</a>
+      </div>
+    </section>
+
+    <!-- ================= BIG CTA BANNER ================= -->
+    <section class="cta-banner">
+      <div class="cta-banner-wrap">
+        <a href="project.html?venture=takamol" class="btn-line" style="border:none;">
+          <h2>
+            OPEN A STAND-UP
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H8M17 7V16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h2>
+        </a>
+      </div>
+    </section>
   </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="index.html">Dashboard</a>
+        <a href="#">Projects</a>
+        <a href="#">Reports</a>
+      </div>
+      <div class="footer-col">
+        <h5>Feature</h5>
+        <a href="#how-it-works">How it works</a>
+        <a href="project.html?venture=takamol">Sample stand-up</a>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <a href="#">About Rimthan</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Rimthan. All rights reserved.</span>
+      <span>Venture Galaxy · Weekly Stand-up</span>
+    </div>
+  </footer>
 
   <script src="data.js"></script>
   <script src="map.js"></script>
