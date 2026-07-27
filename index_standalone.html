@@ -199,6 +199,12 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
   background:var(--card);border:1px solid var(--hairline);box-shadow:var(--shadow-card);transition:.2s;
 }
 .venture-card:hover{transform:translateY(-2px);border-color:var(--ink-faint);}
+.venture-card.archived{opacity:0.72;}
+.venture-card.archived:hover{opacity:1;}
+.vc-completed-badge{
+  font-size:10px;font-weight:700;letter-spacing:0.3px;color:var(--ink-faint);
+  white-space:nowrap;flex-shrink:0;
+}
 .venture-card .vc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}
 .venture-card .vc-name{font-size:15.5px;font-weight:800;color:var(--ink);}
 .venture-card .vc-health-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0;}
@@ -472,7 +478,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
         WE TURN EVERY <span class="word-wrap">MEETING<svg class="scribble-circle" viewBox="0 0 320 110" style="left:-6%;top:-30%;width:112%;height:170%;"><ellipse cx="160" cy="55" rx="155" ry="48" transform="rotate(-4 160 55)"/></svg></span>
         INTO A <span class="glow-word">READABLE STAND-UP.</span>
       </h1>
-      <p class="lede">Paste this week's meeting transcript and Rimthan organizes it into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
+      <p class="lede">Every week's meeting transcript gets pulled automatically and organized into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
       <div class="btn-row">
         <a class="btn-dark" href="project.html?venture=takamol">See a real stand-up ↗</a>
         <a class="btn-line" href="#how-it-works">How it works</a>
@@ -504,10 +510,10 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
         <div class="acc-row open" data-row="1">
           <div class="acc-row-top">
             <span class="acc-num display">01</span>
-            <span class="acc-title">Paste the meeting transcript</span>
+            <span class="acc-title">The meeting transcript is captured automatically</span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Drop the raw call transcript or notes into a venture's stand-up page — no formatting or cleanup needed first.</p></div>
+          <div class="acc-body"><p>Once connected to your meeting tool (Zoom, Google Meet, or a bot like Otter.ai/Fireflies.ai), the transcript is pulled the moment the call ends — nobody has to copy or upload anything.</p></div>
         </div>
         <div class="acc-row" data-row="2">
           <div class="acc-row-top">
@@ -634,7 +640,10 @@ const VENTURE_MAP = [
     healthStatus: "On Track",       // "On Track" | "At Risk" | "Off Track"
     activePriorities: 2,
     risks: 1,
-    milestonesCompleted: 6
+    milestonesCompleted: 6,
+    archived: false                 // set true once a venture is handed off / submitted —
+                                     // it stays in the data (nothing is deleted) but drops
+                                     // out of the default dashboard view
   },
   {
     id: "aether",
@@ -643,7 +652,8 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 4,
     risks: 0,
-    milestonesCompleted: 9
+    milestonesCompleted: 9,
+    archived: false
   },
   {
     id: "novafreight",
@@ -652,7 +662,8 @@ const VENTURE_MAP = [
     healthStatus: "At Risk",
     activePriorities: 5,
     risks: 3,
-    milestonesCompleted: 7
+    milestonesCompleted: 7,
+    archived: false
   },
   {
     id: "orbithealth",
@@ -661,7 +672,8 @@ const VENTURE_MAP = [
     healthStatus: "On Track",
     activePriorities: 3,
     risks: 1,
-    milestonesCompleted: 11
+    milestonesCompleted: 11,
+    archived: false
   },
   {
     id: "helios",
@@ -670,7 +682,8 @@ const VENTURE_MAP = [
     healthStatus: "Off Track",
     activePriorities: 2,
     risks: 4,
-    milestonesCompleted: 3
+    milestonesCompleted: 3,
+    archived: false
   }
 
   // Add more ventures the same way — the dashboard's search, filter
@@ -696,7 +709,8 @@ const DEMO_FILLER_VENTURES = (() => {
       healthStatus: healths[i % healths.length],
       activePriorities: (i % 5) + 1,
       risks: i % 4,
-      milestonesCompleted: (i * 3) % 20
+      milestonesCompleted: (i * 3) % 20,
+      archived: false
     });
   }
   return out;
@@ -865,11 +879,13 @@ let activeFilter = "All";
 let searchTerm = "";
 
 function renderFilterPills(){
-  const statuses = ["All", "On Track", "At Risk", "Off Track"];
+  // "Completed" is separate from health — a venture that's been handed off
+  // isn't On Track/At Risk/Off Track anymore, it's just done.
+  const statuses = ["All", "On Track", "At Risk", "Off Track", "Completed"];
   document.getElementById("healthFilters").innerHTML = statuses.map(s => `
     <button class="filter-pill ${s === activeFilter ? "active" : ""}" data-status="${s}"
-      style="${s !== "All" ? `color:${HEALTH_COLOR[s]}` : ""}">
-      ${s !== "All" ? `<span class="dot"></span>` : ""}${s}
+      style="${s !== "All" && s !== "Completed" ? `color:${HEALTH_COLOR[s]}` : ""}">
+      ${s !== "All" && s !== "Completed" ? `<span class="dot"></span>` : ""}${s}
     </button>
   `).join("");
 
@@ -885,9 +901,15 @@ function renderFilterPills(){
 function renderGrid(){
   const term = searchTerm.trim().toLowerCase();
   const filtered = ALL_VENTURES.filter(v => {
-    const matchesHealth = activeFilter === "All" || v.healthStatus === activeFilter;
     const matchesSearch = !term || v.name.toLowerCase().includes(term) || v.tagline.toLowerCase().includes(term);
-    return matchesHealth && matchesSearch;
+    if (!matchesSearch) return false;
+
+    // "Completed" pill shows archived ventures; every other pill (including
+    // "All") shows only active ones — a finished venture doesn't clutter
+    // the default view, but nothing about it is deleted.
+    if (activeFilter === "Completed") return v.archived;
+    if (v.archived) return false;
+    return activeFilter === "All" || v.healthStatus === activeFilter;
   });
 
   document.getElementById("resultCount").textContent =
@@ -902,10 +924,12 @@ function renderGrid(){
   grid.innerHTML = filtered.map(v => {
     const color = HEALTH_COLOR[v.healthStatus] || "#93A39B";
     return `
-      <a class="venture-card" href="project.html?venture=${v.id}">
+      <a class="venture-card ${v.archived ? "archived" : ""}" href="project.html?venture=${v.id}">
         <div class="vc-top">
           <span class="vc-name">${v.name}</span>
-          <span class="vc-health-dot" style="color:${color}"></span>
+          ${v.archived
+            ? `<span class="vc-completed-badge">✓ Completed</span>`
+            : `<span class="vc-health-dot" style="color:${color}"></span>`}
         </div>
         <div class="vc-tagline">${v.tagline}</div>
         <div class="vc-stats">
