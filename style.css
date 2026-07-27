@@ -186,6 +186,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
 .venture-grid{
   display:grid;grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));gap:14px;
   max-height:560px;overflow-y:auto;padding:4px 4px 4px 0;
+  margin-bottom:60px;
 }
 .venture-card{
   display:block;text-decoration:none;padding:20px 22px;border-radius:var(--radius-md);
@@ -206,9 +207,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
 .venture-card .vc-stats b{color:var(--ink);font-weight:700;}
 .no-results{color:var(--ink-faint);font-size:14px;padding:30px 4px;grid-column:1 / -1;text-align:center;}
 
-.map-legend{display:flex;gap:24px;margin:22px 0 60px;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);}
-.legend-dot{width:9px;height:9px;border-radius:50%;background:currentColor;}
+
 
 /* =====================================================================
    NUMBERED ACCORDION — "How the transcript feature works"
