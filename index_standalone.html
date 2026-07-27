@@ -193,6 +193,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
 .venture-grid{
   display:grid;grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));gap:14px;
   max-height:560px;overflow-y:auto;padding:4px 4px 4px 0;
+  margin-bottom:60px;
 }
 .venture-card{
   display:block;text-decoration:none;padding:20px 22px;border-radius:var(--radius-md);
@@ -213,9 +214,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
 .venture-card .vc-stats b{color:var(--ink);font-weight:700;}
 .no-results{color:var(--ink-faint);font-size:14px;padding:30px 4px;grid-column:1 / -1;text-align:center;}
 
-.map-legend{display:flex;gap:24px;margin:22px 0 60px;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);}
-.legend-dot{width:9px;height:9px;border-radius:50%;background:currentColor;}
+
 
 /* =====================================================================
    NUMBERED ACCORDION — "How the transcript feature works"
@@ -478,7 +477,7 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
         WE TURN EVERY <span class="word-wrap">MEETING<svg class="scribble-circle" viewBox="0 0 320 110" style="left:-6%;top:-30%;width:112%;height:170%;"><ellipse cx="160" cy="55" rx="155" ry="48" transform="rotate(-4 160 55)"/></svg></span>
         INTO A <span class="glow-word">READABLE STAND-UP.</span>
       </h1>
-      <p class="lede">Every week's meeting transcript gets pulled automatically and organized into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
+      <p class="lede">Paste this week's meeting transcript and Rimthan organizes it into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
       <div class="btn-row">
         <a class="btn-dark" href="project.html?venture=takamol">See a real stand-up ↗</a>
         <a class="btn-line" href="#how-it-works">How it works</a>
@@ -495,11 +494,6 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
       <div class="result-count" id="resultCount"></div>
     </div>
     <div class="venture-grid" id="ventureGrid"><!-- filled by map.js --></div>
-    <div class="map-legend">
-      <div class="legend-item" style="color:var(--on-track)"><span class="legend-dot"></span> On Track</div>
-      <div class="legend-item" style="color:var(--at-risk)"><span class="legend-dot"></span> At Risk</div>
-      <div class="legend-item" style="color:var(--off-track)"><span class="legend-dot"></span> Off Track</div>
-    </div>
 
     <!-- ================= HOW IT WORKS: NUMBERED ACCORDION ================= -->
     <section id="how-it-works">
@@ -510,10 +504,10 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
         <div class="acc-row open" data-row="1">
           <div class="acc-row-top">
             <span class="acc-num display">01</span>
-            <span class="acc-title">The meeting transcript is captured automatically</span>
+            <span class="acc-title">Paste the meeting transcript</span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Once connected to your meeting tool (Zoom, Google Meet, or a bot like Otter.ai/Fireflies.ai), the transcript is pulled the moment the call ends — nobody has to copy or upload anything.</p></div>
+          <div class="acc-body"><p>Drop this week's raw call transcript or notes into a venture's stand-up page — no formatting or cleanup needed first.</p></div>
         </div>
         <div class="acc-row" data-row="2">
           <div class="acc-row-top">
@@ -573,7 +567,6 @@ main{max-width:1280px;margin:0 auto;padding:0 32px;}
           <li>Works for one venture or fifty</li>
           <li>Nothing publishes without review</li>
         </ul>
-        <a class="btn-dark" href="project.html?venture=takamol">Try it on Takamol ↗</a>
       </div>
     </section>
 
