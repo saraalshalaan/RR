@@ -6,15 +6,15 @@
 <title>Weekly Stand-up · Rimthan</title>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body class="detail-page">
 
-  <!-- ================= HEADER (shared) ================= -->
+  <!-- ================= HEADER ================= -->
   <header class="header">
     <a href="index.html" class="brand">
       <span class="brand-mark"></span>
-      <span class="brand-word">rimthan</span>
+      <span class="brand-word">Rimthan</span>
     </a>
     <nav>
       <a href="index.html">Dashboard</a>
@@ -32,7 +32,7 @@
     </div>
   </header>
 
-  <main>
+  <main style="padding-bottom:70px;">
     <div class="breadcrumb">
       <a href="index.html">Venture Galaxy</a><span>/</span><span id="crumbName">Loading…</span>
     </div>
@@ -40,10 +40,53 @@
     <!-- header strip: Venture / Venture Lead / Stage / Overall Health -->
     <div class="venture-strip" id="ventureStrip"></div>
 
+    <!-- AI Weekly Stand-up: paste a meeting transcript, generate the update -->
+    <div class="card transcript-card">
+      <div class="card-head">
+        <div>
+          <h3>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14 8L20 10L14 12L12 18L10 12L4 10L10 8L12 2Z" fill="#8FAF2E"/></svg>
+            AI Weekly Stand-up
+          </h3>
+          <small id="generatedMeta">Not generated from a transcript yet</small>
+        </div>
+      </div>
+      <textarea id="transcriptInput" placeholder="Paste this week's meeting transcript here…"></textarea>
+      <div class="row">
+        <button class="generate-btn" id="generateBtn" type="button">Generate stand-up from transcript</button>
+        <span class="generate-status" id="generateStatus"></span>
+      </div>
+    </div>
+
     <!-- everything below is filled in by project.js, or replaced with
          an empty state if this venture has no update generated yet -->
     <div id="updateBody"></div>
   </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="index.html">Dashboard</a>
+        <a href="#">Projects</a>
+        <a href="#">Reports</a>
+      </div>
+      <div class="footer-col">
+        <h5>Feature</h5>
+        <a href="index.html#how-it-works">How it works</a>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <a href="#">About Rimthan</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Rimthan. All rights reserved.</span>
+      <span>Venture Galaxy · Weekly Stand-up</span>
+    </div>
+  </footer>
 
   <script src="data.js"></script>
   <script src="project.js"></script>
