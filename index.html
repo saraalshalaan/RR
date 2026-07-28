@@ -24,7 +24,8 @@
     <div class="header-right">
       <div class="search-pill">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M20 20L16.65 16.65" stroke-width="2" stroke-linecap="round"/></svg>
-        <span>Search</span><kbd>⌘K</kbd>
+        <input type="text" id="headerSearch" placeholder="Search…" autocomplete="off" style="border:none;outline:none;background:transparent;font:inherit;color:var(--ink);width:110px;">
+        <kbd>⌘K</kbd>
       </div>
       <div class="profile">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="3.6" stroke-width="1.8"/><path d="M4.5 19.2C5.8 15.9 8.6 14 12 14C15.4 14 18.2 15.9 19.5 19.2" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -37,13 +38,13 @@
     <section class="poster-hero">
       <div class="poster-eyebrow">Venture Galaxy · Weekly Stand-up</div>
       <h1>
-        WE TURN EVERY <span class="word-wrap">MEETING<svg class="scribble-circle" viewBox="0 0 320 110" style="left:-6%;top:-30%;width:112%;height:170%;"><ellipse cx="160" cy="55" rx="155" ry="48" transform="rotate(-4 160 55)"/></svg></span>
-        INTO A <span class="glow-word">READABLE STAND-UP.</span>
+        EVERY VENTURE'S <span class="word-wrap">WEEKLY<svg class="scribble-circle" viewBox="0 0 320 110" style="left:-6%;top:-30%;width:112%;height:170%;"><ellipse cx="160" cy="55" rx="155" ry="48" transform="rotate(-4 160 55)"/></svg></span>
+        <span class="glow-word">PULSE, IN ONE PLACE.</span>
       </h1>
-      <p class="lede">Paste this week's meeting transcript and Rimthan organizes it into a clean, structured stand-up — priorities, wins, risks, and asks — for anyone catching up or looking back.</p>
+      <p class="lede">Every venture Rimthan is building, tracked week to week — health status, priorities, risks, and what leadership needs to unblock, all in one searchable dashboard.</p>
       <div class="btn-row">
         <a class="btn-dark" href="project.html?venture=takamol">See a real stand-up ↗</a>
-        <a class="btn-line" href="#how-it-works">How it works</a>
+        <a class="btn-line" href="#delivery-framework">How we build</a>
       </div>
     </section>
 
@@ -58,78 +59,68 @@
     </div>
     <div class="venture-grid" id="ventureGrid"><!-- filled by map.js --></div>
 
-    <!-- ================= HOW IT WORKS: NUMBERED ACCORDION ================= -->
-    <section id="how-it-works">
-      <h2 class="section-heading">How the transcript feature works</h2>
-      <p class="section-sub">Not translation between languages — translation from raw conversation into something worth reading. Four steps, no manual write-up.</p>
+    <!-- ================= HOW WE BUILD VENTURES: NUMBERED ACCORDION ================= -->
+    <section id="delivery-framework">
+      <h2 class="section-heading">How we build ventures</h2>
+      <p class="section-sub">Seven phases from first client conversation to final handoff — every venture on this dashboard sits somewhere along this path.</p>
 
       <div class="accordion" id="accordion">
         <div class="acc-row open" data-row="1">
           <div class="acc-row-top">
             <span class="acc-num display">01</span>
-            <span class="acc-title">Paste the meeting transcript</span>
+            <span class="acc-title">Sales &amp; engagement <span style="font-weight:600;color:var(--ink-faint);">· ~4–8 weeks</span></span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Drop this week's raw call transcript or notes into a venture's stand-up page — no formatting or cleanup needed first.</p></div>
+          <div class="acc-body"><p>First conversations with a client or partner — scoping what the opportunity actually is before anything is scheduled.</p></div>
         </div>
         <div class="acc-row" data-row="2">
           <div class="acc-row-top">
             <span class="acc-num display">02</span>
-            <span class="acc-title">Rimthan structures it</span>
+            <span class="acc-title">Opportunity area assessment <span style="font-weight:600;color:var(--ink-faint);">· ~2–4 weeks</span></span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Priorities, wins, risks, blockers and leadership asks get pulled out and sorted into the same fields your team already reports on.</p></div>
+          <div class="acc-body"><p>Sizing up where the real leverage is, so effort goes toward the venture worth building — not just the first idea raised.</p></div>
         </div>
         <div class="acc-row" data-row="3">
           <div class="acc-row-top">
             <span class="acc-num display">03</span>
-            <span class="acc-title">Review and fine-tune</span>
+            <span class="acc-title">Ideation <span style="font-weight:600;color:var(--ink-faint);">· ~1 month</span></span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Nothing publishes blind — a venture lead can edit any field before it's shared, the same way they'd mark up a doc.</p></div>
+          <div class="acc-body"><p>Generating concrete venture concepts against the opportunity, and screening out the ones that don't hold up.</p></div>
         </div>
         <div class="acc-row" data-row="4">
           <div class="acc-row-top">
             <span class="acc-num display">04</span>
-            <span class="acc-title">Share the read-back</span>
+            <span class="acc-title">Validation <span style="font-weight:600;color:var(--ink-faint);">· ~9 weeks</span></span>
             <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
           </div>
-          <div class="acc-body"><p>Anyone who missed the call — or wants to check back weeks later — opens the venture's page and reads the stand-up, not the transcript.</p></div>
+          <div class="acc-body"><p>Testing the concept against real users and early demand — the stage most of this week's ventures are sitting in right now.</p></div>
         </div>
-      </div>
-    </section>
-
-    <!-- ================= TRANSCRIPT MOCKUP ILLUSTRATION ================= -->
-    <section class="mockup-section">
-      <div class="mockup-visual">
-        <div class="mockup-pane raw">
-          <div class="mp-label">Raw transcript</div>
-          <p>
-            <span>Ali: so BizDev is at ninety five percent...</span>
-            <span>Feras: yeah we did the Proline meeting...</span>
-            <span>Kuba: release is done, waiting on prod card...</span>
-            <span>Ali: commercial stream is medium risk...</span>
-          </p>
+        <div class="acc-row" data-row="5">
+          <div class="acc-row-top">
+            <span class="acc-num display">05</span>
+            <span class="acc-title">Incubation <span style="font-weight:600;color:var(--ink-faint);">· ~6–7 months</span></span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Building the MVP and proving the model works in practice, not just on paper.</p></div>
         </div>
-        <div class="mockup-arrow">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="acc-row" data-row="6">
+          <div class="acc-row-top">
+            <span class="acc-num display">06</span>
+            <span class="acc-title">Commercialization <span style="font-weight:600;color:var(--ink-faint);">· ~9 months</span></span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Scaling go-to-market, sales, and revenue until the venture can stand on its own.</p></div>
         </div>
-        <div class="mockup-pane structured">
-          <div class="mp-label">Structured stand-up</div>
-          <div class="mp-row"><span class="mp-dot"></span>Business Development — 95%</div>
-          <div class="mp-bar"><div class="mp-bar-fill" style="width:95%"></div></div>
-          <div class="mp-row" style="margin-top:16px;"><span class="mp-dot" style="background:var(--at-risk)"></span>Risk: Stream Commercial · Medium</div>
-          <div class="mp-row"><span class="mp-dot"></span>Next step: Demo · Proline</div>
+        <div class="acc-row" data-row="7">
+          <div class="acc-row-top">
+            <span class="acc-num display">07</span>
+            <span class="acc-title">Handoff protocol <span style="font-weight:600;color:var(--ink-faint);">· ~3 months</span></span>
+            <span class="acc-toggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="acc-body"><p>Transferring ownership and day-to-day operation to the client or founding team — this is when a venture gets marked Completed.</p></div>
         </div>
-      </div>
-      <div class="mockup-copy">
-        <h2 class="section-heading">Built for catching up, not just reporting</h2>
-        <p>People join late, come back from leave, or just weren't on the call. This isn't a transcript viewer — it's the stand-up, ready to read in under a minute.</p>
-        <ul>
-          <li>Same fields your team already reports on</li>
-          <li>Works for one venture or fifty</li>
-          <li>Nothing publishes without review</li>
-        </ul>
       </div>
     </section>
 
@@ -157,7 +148,7 @@
       </div>
       <div class="footer-col">
         <h5>Feature</h5>
-        <a href="#how-it-works">How it works</a>
+        <a href="#delivery-framework">How we build</a>
         <a href="project.html?venture=takamol">Sample stand-up</a>
       </div>
       <div class="footer-col">
