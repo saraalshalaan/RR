@@ -12,6 +12,22 @@ const HEALTH_COLOR = {
   "Off Track": "#C43D3D"
 };
 
+// the header search box lives on every page, but only index.html has a
+// venture grid to filter — so from here, Enter just hands the query
+// over to the dashboard instead of doing nothing.
+const headerSearch = document.getElementById("headerSearch");
+headerSearch?.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim();
+  window.location.href = q ? `index.html?q=${encodeURIComponent(q)}` : "index.html";
+});
+document.addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    headerSearch?.focus();
+  }
+});
+
 function meterSVG(progress){
   const r = 25, c = 2 * Math.PI * r;
   const offset = c * (1 - progress / 100);
@@ -49,18 +65,13 @@ function renderStrip(venture, d){
     <div class="strip-item"><span class="k">Overall Health</span><span class="v health" style="color:${color}"><span class="led"></span>${d.overallHealth}</span></div>
     <div class="strip-logo">${venture.name}</div>
   `;
-
-  if (d.meta) {
-    document.getElementById("generatedMeta").textContent =
-      `Generated from ${d.meta.generatedFrom.toLowerCase()} · ${d.meta.generatedAt}`;
-  }
 }
 
 function renderUpdate(venture, d){
   const prioritiesHTML = d.priorities.map(p => `
     <div class="card">
       <div class="card-head">
-        <div><h3>${p.name}</h3><small>${p.stream} · ${p.team}</small></div>
+        <div><h3>${p.name}</h3><small>${[p.stream, p.team].filter(Boolean).join(" · ")}</small></div>
         ${meterSVG(p.progress)}
       </div>
       <ul class="bullet-list">
@@ -80,7 +91,7 @@ function renderUpdate(venture, d){
         <div class="risk-card card">
           <div class="risk-head">
             <span class="led" style="color:${r.severity === "High" ? "var(--off-track)" : r.severity === "Low" ? "var(--on-track)" : "var(--at-risk)"}"></span>
-            <h4>${r.item} · ${r.stream}</h4>
+            <h4>${[r.item, r.stream].filter(Boolean).join(" · ")}</h4>
             <span class="severity-tag">Severity: ${r.severity}</span>
           </div>
           <p>${r.mitigation || "No mitigation action logged yet."}</p>
@@ -164,36 +175,10 @@ async function init(){
       <div class="strip-logo">${venture.name}</div>
     `;
     renderEmptyState(venture.name);
-  } else {
-    renderStrip(venture, update);
-    renderUpdate(venture, update);
+    return;
   }
-
-  const generateBtn = document.getElementById("generateBtn");
-  const statusEl = document.getElementById("generateStatus");
-  generateBtn.addEventListener("click", async () => {
-    const transcript = document.getElementById("transcriptInput").value.trim();
-    if (!transcript) {
-      statusEl.textContent = "Paste a transcript first.";
-      statusEl.className = "generate-status warn";
-      return;
-    }
-    generateBtn.disabled = true;
-    statusEl.textContent = "Generating…";
-    statusEl.className = "generate-status";
-
-    const result = await generateStandupFromTranscript(venture.id, transcript);
-
-    generateBtn.disabled = false;
-    if (!result) {
-      statusEl.textContent = "AI generation isn't connected yet — this is where the stand-up will appear once your pipeline is wired in.";
-      statusEl.className = "generate-status warn";
-      return;
-    }
-    statusEl.textContent = "Stand-up generated.";
-    renderStrip(venture, result);
-    renderUpdate(venture, result);
-  });
+  renderStrip(venture, update);
+  renderUpdate(venture, update);
 }
 
 init();
